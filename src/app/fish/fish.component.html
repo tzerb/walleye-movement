@@ -1,0 +1,6 @@
+<p>Fish</p>
+<div *ngFor="let f of fish">
+  {{ f.Sex }} {{ f.Length }}" Tagged:
+  {{ f.TaggingDate | date: shortDate }} Location: {{ f.Location }} Number of
+  Contacts: {{ f.Contacts.Length }}
+</div>
