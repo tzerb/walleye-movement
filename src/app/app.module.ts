@@ -5,12 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FishComponent } from './fish/fish.component';
 import { LocationsComponent } from './locations/locations.component';
+import { SingleFishComponent } from './single-fish/single-fish.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FishComponent,
-    LocationsComponent
+    LocationsComponent,
+    SingleFishComponent
   ],
   imports: [
     BrowserModule,
