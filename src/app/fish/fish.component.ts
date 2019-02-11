@@ -11,11 +11,13 @@ export class FishComponent implements OnInit {
 
   fish = [];
   locations = [];
+
   ngOnInit() {
     this.fish = this.fishService.getFish();
     this.locations = this.fishService.getLocations();
-    this.fishService.runTest();
+    this.fishService.getFishWithMissingContactsAdded();
   }
+
   getLocationText(f) {
     if (f.Contacts.length > 0) {
       var loc = this.locations.find(l => l.Id == f.Contacts[0].LocationId);

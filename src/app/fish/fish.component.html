@@ -1,6 +1,8 @@
 <p>Fish</p>
 <div *ngFor="let f of fish; let i = index">
-  {{ i }} : {{ f.Sex }} {{ f.Length }}" Tagged:
-  {{ f.TaggingDate | date: shortDate }} Location: {{ f.Location }} Number of
-  Contacts: {{ f.Contacts.length }} FirstContact {{ getLocationText(f) }}
+  >> <a [routerLink]="['/singlefish', i]">{{ i }}</a> {{ f.Length }} inch
+  {{ f.Sex }} Tagged on {{ f.TaggingDate | date: shortDate }} at
+  {{ f.Location }} Number of had {{ f.Contacts.length }} contacts. The first
+  contact was
+  {{ getLocationText(f) }}
 </div>

@@ -8,7 +8,8 @@ export class FishDataService {
   constructor() {}
 
   private fakeMissedContects(path, lastContact, thisContact) {
-    var c = { LocationId: "R", Start: "2011-03-26T22:03:18", Contacts: 0 };
+    var c = { LocationId: "", Start: "", Contacts: 0 };
+    var list = [];
     var lastDate = new Date(lastContact.Start);
     var thisDate = new Date(thisContact.Start);
 
@@ -22,20 +23,14 @@ export class FishDataService {
 
     console.log(`a${lastContact.LocationId} : ${new Date(lastContact.Start)} `);
     for (var i = 1; i < numberToAdd; i++) {
-      console.log(
-        `${path[lastIndex + i * sign]} : ${new Date(
-          lastDate.getTime() + diff * i
-        )} `
-      );
+      list.push({
+        LocationId: path[lastIndex + i * sign],
+        Start: new Date(lastDate.getTime() + diff * i),
+        Contacts: 0
+      });
     }
-    console.log(`z${thisContact.LocationId} : ${new Date(thisContact.Start)} `);
 
-    var pd = this.findPathDifferences(
-      lastContact.LocationId,
-      thisContact.LocationId
-    );
-    var minpd = this.minPathDifference(pd);
-    console.log(`xtdiff = ${lastDate.getTime() - thisDate.getTime()}`);
+    return list;
   }
 
   private findPathDifference(path, lastLocId, thisLocId) {
@@ -69,62 +64,75 @@ export class FishDataService {
     return min;
   }
 
-  runTest() {
-    var fish = this.getFish();
+  sortContacts(contacts: [any]): [any] {
+    return contacts.sort((a, b) => {
+      var aa = new Date(a.Start);
+      var bb = new Date(b.Start);
+      if (aa == bb) return 0;
+      else return aa > bb ? 1 : -1;
+    });
+  }
+
+  getOneFishWithMissingContactsAdded(onefish) {
     var paths = this.getPaths();
-    for (var j = 0; j < fish.length; j++) {
-      var onefish = fish[j];
-      onefish.Contacts = onefish.Contacts.sort((a, b) => {
-        var aa = new Date(a.Start);
-        var bb = new Date(b.Start);
-        if (aa == bb) return 0;
-        else return aa > bb ? 1 : -1;
-      });
-      var lastContact = onefish.Contacts[0];
-      for (var i = 1; i < onefish.Contacts.length; i++) {
-        var lastDate = new Date(lastContact.Start);
-        var thisDate = new Date(onefish.Contacts[i].Start);
-        if (thisDate < lastDate) {
-          debugger;
-          console.log(
-            `ERROR ${lastContact.Start} ${onefish.Contacts[i].Start}`
-          );
-        }
-        var pd = this.findPathDifferences(
-          lastContact.LocationId,
-          onefish.Contacts[i].LocationId
-        );
+    var returnedFish = {
+      Sex: onefish.Sex,
+      TaggingDate: onefish.TaggingDate,
+      Mature: onefish.Mature,
+      Length: onefish.Length,
+      FakedContacts: 0,
+      Contacts: []
+    };
+    var fakedContacts = [];
 
-        var mpd = this.minPathDifference(pd);
+    // Make sure the contacts are sorted
+    onefish.Contacts = this.sortContacts(onefish.Contacts);
+    var lastContact = onefish.Contacts[0];
+    for (var i = 1; i < onefish.Contacts.length; i++) {
+      var lastDate = new Date(lastContact.Start);
+      var thisDate = new Date(onefish.Contacts[i].Start);
+      if (thisDate < lastDate) {
+        debugger;
+        console.log(`ERROR ${lastContact.Start} ${onefish.Contacts[i].Start}`);
+      }
 
-        if (mpd.value > 1) {
-          console.log(`tdiff = ${lastDate.getTime() - thisDate.getTime()}`);
-          console.log(`min = ${mpd.value}, path = ${mpd.index}`);
+      var pd = this.findPathDifferences(
+        lastContact.LocationId,
+        onefish.Contacts[i].LocationId
+      );
+
+      var mpd = this.minPathDifference(pd);
+
+      if (mpd.value > 1) {
+        console.log(`tdiff = ${lastDate.getTime() - thisDate.getTime()}`);
+        console.log(`min = ${mpd.value}, path = ${mpd.index}`);
+        fakedContacts.push(
           this.fakeMissedContects(
             paths[mpd.index],
             lastContact,
             onefish.Contacts[i]
-          );
-
-          var msg = "";
-          pd.forEach(function(element) {
-            msg += ", " + element;
-          });
-          console.log(
-            j +
-              msg +
-              " :: " +
-              lastContact.LocationId +
-              ", " +
-              onefish.Contacts[i].LocationId
-          );
-        }
-
-        lastContact = onefish.Contacts[i];
+          )
+        );
       }
+      lastContact = onefish.Contacts[i];
+    }
+    returnedFish.Contacts = this.sortContacts(
+      onefish.Contacts.concat(fakedContacts)
+    );
+    returnedFish.FakedContacts = fakedContacts.length;
+    return returnedFish;
+  }
+
+  getFishWithMissingContactsAdded() {
+    var fish = this.getFish();
+    for (var j = 0; j < fish.length; j++) {
+      this.getOneFishWithMissingContactsAdded(fish[j]);
     }
   }
 
+  getSingleFish(fishId: number) {
+    return this.getOneFishWithMissingContactsAdded(fishData[fishId]);
+  }
   getPaths() {
     return pathsData;
   }
