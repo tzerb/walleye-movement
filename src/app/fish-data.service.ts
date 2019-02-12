@@ -64,6 +64,10 @@ export class FishDataService {
     return min;
   }
 
+  getLocations() {
+    return locationsData;
+  }
+
   sortContacts(contacts: [any]): [any] {
     return contacts.sort((a, b) => {
       var aa = new Date(a.Start);
@@ -106,7 +110,7 @@ export class FishDataService {
       if (mpd.value > 1) {
         console.log(`tdiff = ${lastDate.getTime() - thisDate.getTime()}`);
         console.log(`min = ${mpd.value}, path = ${mpd.index}`);
-        fakedContacts.push(
+        fakedContacts.concat(
           this.fakeMissedContects(
             paths[mpd.index],
             lastContact,
@@ -124,10 +128,12 @@ export class FishDataService {
   }
 
   getFishWithMissingContactsAdded() {
+    var ret = [];
     var fish = this.getFish();
     for (var j = 0; j < fish.length; j++) {
-      this.getOneFishWithMissingContactsAdded(fish[j]);
+      ret[j] = this.getOneFishWithMissingContactsAdded(fish[j]);
     }
+    return ret;
   }
 
   getSingleFish(fishId: number) {
@@ -136,9 +142,7 @@ export class FishDataService {
   getPaths() {
     return pathsData;
   }
-  getLocations() {
-    return locationsData;
-  }
+
   getFish() {
     return fishData;
   }

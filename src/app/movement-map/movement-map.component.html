@@ -1,0 +1,60 @@
+<h1 class="text-center">{{ title }}</h1>
+
+<!-- this creates a google map on the page with the given lat/lng from -->
+<!-- the component as the initial center of the map: 
+  <agm-marker
+    *ngFor="let m of markerArray"
+    [latitude]="m.lat"
+    [longitude]="m.lng"
+    [iconUrl]="m.iconUrl"
+  ></agm-marker>
+    <agm-circle
+    [radius]="40"
+    strokeColor="red"
+    fillColor="black"
+    strokeOpacity="1"
+    [latitude]="lat"
+    [longitude]="lng"
+  ></agm-circle>
+
+  <agm-polygon [paths]="paths"> </agm-polygon>
+    <agm-rectangle
+    [south]="lat"
+    [north]="lat + 0.1"
+    [east]="lng + 0.1"
+    [west]="lng"
+  ></agm-rectangle>
+-->
+<!-- <agm-marker
+    [latitude]="lat"
+    [longitude]="lng"
+    [iconUrl]="iconUrl"
+  ></agm-marker> -->
+
+<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+  <agm-circle
+    *ngFor="let m of markerArray"
+    [radius]="m.radius"
+    [latitude]="m.lat"
+    [longitude]="m.lng"
+    [fillColor]="'#aa0000'"
+  ></agm-circle>
+</agm-map>
+
+<mat-card class="result">
+  <mat-card-content
+    ><mat-slider
+      [(ngModel)]="value"
+      min="0"
+      [max]="points"
+      step="1"
+      tickInterval="1"
+      thumbLabel
+      [displayWith]="displayWith"
+      [value]="value"
+      (input)="onInputChange($event)"
+    ></mat-slider>
+
+    <div>{{ curDate }} - {{ value }}</div>
+  </mat-card-content>
+</mat-card>
