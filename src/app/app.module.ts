@@ -21,7 +21,7 @@ import { FishComponent } from "./fish/fish.component";
 import { LocationsComponent } from "./locations/locations.component";
 import { SingleFishComponent } from "./single-fish/single-fish.component";
 import { MovementMapComponent } from "./movement-map/movement-map.component";
-
+import { GoogleApiKey } from "./sensitive";
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +34,7 @@ import { MovementMapComponent } from "./movement-map/movement-map.component";
     BrowserModule,
     AppRoutingModule,
     AgmCoreModule.forRoot({
-      apiKey: "AIzaSyBRzMawEa1sowHys_VzRqg6_FswUxnka7A"
+      apiKey: GoogleApiKey
     }),
     BrowserAnimationsModule,
     MatCardModule,
