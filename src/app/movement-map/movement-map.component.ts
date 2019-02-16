@@ -7,9 +7,10 @@ import { FishDataService } from "../fish-data.service";
   styleUrls: ["./movement-map.component.css"]
 })
 export class MovementMapComponent implements OnInit {
-  dataArray: any[1100][20] = [];
+  fishPositions: any = null;
 
-  points: number = this.dataArray.length - 1;
+  points: number = 0;
+  firstDate: any;
 
   title: string = "Walleye Movements through the Winnebago System";
   value: number = 0;
@@ -41,18 +42,18 @@ export class MovementMapComponent implements OnInit {
 
   constructor(private fishService: FishDataService) {}
 
-  dateMoved(date) {
-    console.log(date);
-  }
+  // dateMoved(date) {
+  //   console.log(date);
+  // }
 
-  diffDays(date1, date2) {
-    var diff = date1.getTime() - date2.getTime();
-    return Math.ceil(diff / (1000 * 3600 * 24));
-  }
+  // diffDays(date1, date2) {
+  //   var diff = date1.getTime() - date2.getTime();
+  //   return Math.ceil(diff / (1000 * 3600 * 24));
+  // }
 
-  dateOrdinal(date1) {
-    return this.diffDays(date1, new Date("1/1/2011"));
-  }
+  // dateOrdinal(date1) {
+  //   return this.diffDays(date1, new Date("1/1/2011"));
+  // }
 
   ngOnInit() {
     this.markerArray = [];
@@ -68,53 +69,56 @@ export class MovementMapComponent implements OnInit {
       })
     );
 
-    var d = this.fishService.getFishWithMissingContactsAdded();
-    var numDatePoints = 1100;
-    this.points = numDatePoints;
-    var numLocations = a.length;
-    for (var i = 0; i < numDatePoints; i++) {
-      var locArray = [];
-      for (var j = 0; j < numLocations; j++) {
-        locArray.push(0);
-      }
-      this.dataArray.push(locArray);
-    }
+    this.fishPositions = this.fishService.getInitialPositions();
+    this.points = this.fishPositions.positions.length;
+    // var d = this.fishService.getFishWithMissingContactsAdded();
+    // var numDatePoints = 1100;
+    // this.points = numDatePoints;
+    // var numLocations = a.length;
+    // for (var i = 0; i < numDatePoints; i++) {
+    //   var locArray = [];
+    //   for (var j = 0; j < numLocations; j++) {
+    //     locArray.push(0);
+    //   }
+    //   this.dataArray.push(locArray);
+    // }
 
-    var t = this;
-    d.forEach(f => {
-      var contacts = f.Contacts;
-      if (contacts) {
-        var lastContact = contacts[0];
+    // var t = this;
+    // d.forEach(f => {
+    //   var contacts = f.Contacts;
+    //   if (contacts) {
+    //     var lastContact = contacts[0];
 
-        for (var i = 1; i < contacts.length - 1; i++) {
-          var locIndex =
-            contacts[i].LocationId.charCodeAt(0) - "A".charCodeAt(0);
-          for (
-            var j = this.dateOrdinal(new Date(lastContact.Start));
-            j < this.dateOrdinal(new Date(contacts[i].Start));
-            j++
-          ) {
-            t.dataArray[j][locIndex] += 1;
-            var sum = 0;
-            t.dataArray[j].forEach((v: number) => (sum += v));
-          }
-          lastContact = contacts[i];
-        }
-      }
-    });
+    //     for (var i = 1; i < contacts.length - 1; i++) {
+    //       var locIndex =
+    //         contacts[i].LocationId.charCodeAt(0) - "A".charCodeAt(0);
+    //       for (
+    //         var j = this.dateOrdinal(new Date(lastContact.Start));
+    //         j < this.dateOrdinal(new Date(contacts[i].Start));
+    //         j++
+    //       ) {
+    //         t.dataArray[j][locIndex] += 1;
+    //         var sum = 0;
+    //         t.dataArray[j].forEach((v: number) => (sum += v));
+    //       }
+    //       lastContact = contacts[i];
+    //     }
+    //   }
+    // });
 
-    var t = this;
-    setInterval(function() {
-      if (t.value < 1100) {
-        t.value++;
-        t.changeDate(t.value);
-      }
-    }, 100);
+    // var t = this;
+    // setInterval(function() {
+    //   if (t.value < 1100) {
+    //     t.value++;
+    //     t.changeDate(t.value);
+    //   }
+    // }, 100);
   }
 
   computeDate(value: number): string {
-    var date = new Date("1/1/2011");
-    date.setDate(date.getDate() + value);
+    var date = new Date(
+      this.fishPositions.minDate + value * 1000 * 24 * 60 * 60
+    );
     this.curDate = date.toLocaleDateString();
     return date.toLocaleDateString();
   }
@@ -123,17 +127,18 @@ export class MovementMapComponent implements OnInit {
     var i = 0;
     console.log("date: " + this.computeDate(value));
     this.markerArray.forEach(m => {
-      m.radius = Math.sqrt(this.dataArray[value][i]) * 1000;
+      m.radius = Math.sqrt(this.fishPositions.positions[value][i]) * 1000;
       console.log(
         m.radius +
           ":" +
-          this.dataArray[value][i] +
+          this.fishPositions.positions[value][i] +
           ":" +
-          Math.sqrt(this.dataArray[value][i] * 1000)
+          Math.sqrt(this.fishPositions.positions[value][i] * 1000)
       );
       i++;
     });
   }
+
   onInputChange(e: any) {
     console.log("e.value: " + e.value);
     this.changeDate(e.value);
@@ -143,9 +148,12 @@ export class MovementMapComponent implements OnInit {
     if (!value) {
       return 0;
     }
-    var date = new Date("1/1/2011");
-    date.setDate(date.getDate() + value);
-    this.curDate = date.toLocaleDateString();
-    return date.toLocaleDateString();
+    this.curDate = this.computeDate(value);
+    debugger;
+    return this.computeDate(value);
+    // var date = new Date("1/1/2011");
+    // date.setDate(date.getDate() + value);
+    // this.curDate = date.toLocaleDateString();
+    // return date.toLocaleDateString();
   }
 }

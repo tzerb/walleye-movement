@@ -1,6 +1,20 @@
 <p>
-  Locations
+  Receiver Locations
 </p>
-<div *ngFor="let l of locations">
-  {{ l.Id }} : {{ l.Name }} : {{ l.Lat }}, {{ l.Lng }}
-</div>
+
+<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+  <agm-marker
+    *ngFor="let m of markerArray"
+    [latitude]="m.lat"
+    [longitude]="m.lng"
+    [label]="m.label"
+  ></agm-marker>
+</agm-map>
+
+<mat-card class="result">
+  <mat-card-content>
+    <div *ngFor="let l of locations">
+      {{ l.Id }} : {{ l.Name }} : {{ l.Lat }}, {{ l.Lng }}
+    </div>
+  </mat-card-content>
+</mat-card>

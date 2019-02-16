@@ -84,6 +84,7 @@ export class FishDataService {
       TaggingDate: onefish.TaggingDate,
       Mature: onefish.Mature,
       Length: onefish.Length,
+      Region: onefish.Region,
       FakedContacts: 0,
       Contacts: []
     };
@@ -136,9 +137,105 @@ export class FishDataService {
     return ret;
   }
 
+  getLocationIndexFromRegionOrLocationId(region: string) {
+    var locationIndex = null;
+    var i = 0;
+    locationsData.forEach(l => {
+      if (l.Id == region.toUpperCase()) {
+        locationIndex = i;
+      }
+      i++;
+    });
+
+    if (locationIndex == null) throw `Couldn't find region ${region}`;
+
+    return locationIndex;
+  }
+
+  getTransitions(fish: any) {
+    var transitions = [];
+    var lastLoc = this.getLocationIndexFromRegionOrLocationId(fish.Region);
+    fish.Contacts.forEach(c => {
+      transitions.push({
+        Date: new Date(c.Start).getTime(),
+        FromLocationIndex: lastLoc,
+        ToLocationIndex: this.getLocationIndexFromRegionOrLocationId(
+          c.LocationId
+        )
+      });
+      lastLoc = this.getLocationIndexFromRegionOrLocationId(c.LocationId);
+    });
+    return transitions;
+  }
+
+  getMinMaxDates(fish: any): any {
+    var max = 0;
+    var min = new Date("1/1/2020").getTime();
+    fish.forEach(f => {
+      min = Math.min(min, new Date(f.TaggingDate).getTime());
+      f.Contacts.forEach(c => {
+        max = Math.max(max, new Date(c.Start).getTime());
+      });
+      // var sortedcontacts = this.sortContacts(f.Contacts);
+    });
+    return {
+      max: max,
+      maxDate: new Date(max),
+      min: min,
+      minDate: new Date(min),
+      days: (max - min) / 1000 / 60 / 60 / 24
+    };
+  }
+
+  truncDate(date: number) {
+    return Math.floor(date / (1000 * 60 * 60 * 24));
+  }
+
+  getInitialPositions() {
+    var positions = [];
+    var locations = [];
+    var fish = this.getFishWithMissingContactsAdded();
+
+    locationsData.forEach(l => {
+      locations.push(0);
+    });
+
+    var minMaxDates = this.getMinMaxDates(fish);
+    for (var i = 0; i < minMaxDates.days + 1; i++) {
+      positions.push(locations.slice());
+    }
+
+    fish.forEach(f => {
+      var transitions = this.getTransitions(f);
+      var lastDate = new Date(f.TaggingDate).getTime();
+      var lastLocationIndex = this.getLocationIndexFromRegionOrLocationId(
+        f.Region
+      );
+      transitions.forEach(t => {
+        var a = this.truncDate(lastDate);
+        var b = this.truncDate(t.Date);
+        var nDays = b - a;
+        console.log(nDays);
+        for (var j = a; j < b; j++) {
+          var dateIndex = Math.floor(j - this.truncDate(minMaxDates.min));
+          positions[dateIndex][lastLocationIndex]++;
+        }
+        lastDate = t.Date;
+        lastLocationIndex = t.ToLocationIndex;
+      });
+    });
+
+    return {
+      minDate: minMaxDates.min,
+      maxDate: minMaxDates.max,
+      positions: positions
+    };
+  }
+
   getSingleFish(fishId: number) {
     return this.getOneFishWithMissingContactsAdded(fishData[fishId]);
   }
+
   getPaths() {
     return pathsData;
   }
