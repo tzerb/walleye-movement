@@ -22,13 +22,15 @@ import { LocationsComponent } from "./locations/locations.component";
 import { SingleFishComponent } from "./single-fish/single-fish.component";
 import { MovementMapComponent } from "./movement-map/movement-map.component";
 import { GoogleApiKey } from "./sensitive";
+import { IndexComponent } from './index/index.component';
 @NgModule({
   declarations: [
     AppComponent,
     FishComponent,
     LocationsComponent,
     SingleFishComponent,
-    MovementMapComponent
+    MovementMapComponent,
+    IndexComponent
   ],
   imports: [
     BrowserModule,

@@ -18,7 +18,8 @@ export class MovementMapComponent implements OnInit {
   lat: number = 44.2;
   lng: number = -89.0;
   zoom: number = 9;
-  curDate = "nope";
+
+  curDate = "";
   iconUrl = {
     path: `M382.688,182.686H59.116l77.209-77.214c6.764-6.76,6.764-17.726,0-24.485c-6.764-6.764-17.73-6.764-24.484,0L5.073,187.757
       c-6.764,6.76-6.764,17.727,0,24.485l106.768,106.775c3.381,3.383,7.812,5.072,12.242,5.072c4.43,0,8.861-1.689,12.242-5.072
@@ -30,6 +31,7 @@ export class MovementMapComponent implements OnInit {
     scale: 0.1,
     rotation: 45
   };
+
   paths = [
     { lat: 44, lng: -88 },
     { lat: 44, lng: -88.1 },
@@ -41,19 +43,6 @@ export class MovementMapComponent implements OnInit {
   markerArray = [];
 
   constructor(private fishService: FishDataService) {}
-
-  // dateMoved(date) {
-  //   console.log(date);
-  // }
-
-  // diffDays(date1, date2) {
-  //   var diff = date1.getTime() - date2.getTime();
-  //   return Math.ceil(diff / (1000 * 3600 * 24));
-  // }
-
-  // dateOrdinal(date1) {
-  //   return this.diffDays(date1, new Date("1/1/2011"));
-  // }
 
   ngOnInit() {
     this.markerArray = [];
@@ -71,48 +60,6 @@ export class MovementMapComponent implements OnInit {
 
     this.fishPositions = this.fishService.getInitialPositions();
     this.points = this.fishPositions.positions.length;
-    // var d = this.fishService.getFishWithMissingContactsAdded();
-    // var numDatePoints = 1100;
-    // this.points = numDatePoints;
-    // var numLocations = a.length;
-    // for (var i = 0; i < numDatePoints; i++) {
-    //   var locArray = [];
-    //   for (var j = 0; j < numLocations; j++) {
-    //     locArray.push(0);
-    //   }
-    //   this.dataArray.push(locArray);
-    // }
-
-    // var t = this;
-    // d.forEach(f => {
-    //   var contacts = f.Contacts;
-    //   if (contacts) {
-    //     var lastContact = contacts[0];
-
-    //     for (var i = 1; i < contacts.length - 1; i++) {
-    //       var locIndex =
-    //         contacts[i].LocationId.charCodeAt(0) - "A".charCodeAt(0);
-    //       for (
-    //         var j = this.dateOrdinal(new Date(lastContact.Start));
-    //         j < this.dateOrdinal(new Date(contacts[i].Start));
-    //         j++
-    //       ) {
-    //         t.dataArray[j][locIndex] += 1;
-    //         var sum = 0;
-    //         t.dataArray[j].forEach((v: number) => (sum += v));
-    //       }
-    //       lastContact = contacts[i];
-    //     }
-    //   }
-    // });
-
-    // var t = this;
-    // setInterval(function() {
-    //   if (t.value < 1100) {
-    //     t.value++;
-    //     t.changeDate(t.value);
-    //   }
-    // }, 100);
   }
 
   computeDate(value: number): string {
@@ -149,11 +96,6 @@ export class MovementMapComponent implements OnInit {
       return 0;
     }
     this.curDate = this.computeDate(value);
-    debugger;
     return this.computeDate(value);
-    // var date = new Date("1/1/2011");
-    // date.setDate(date.getDate() + value);
-    // this.curDate = date.toLocaleDateString();
-    // return date.toLocaleDateString();
   }
 }

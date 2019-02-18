@@ -8,12 +8,14 @@ import { FishDataService } from "../fish-data.service";
 })
 export class LocationsComponent implements OnInit {
   constructor(private fishService: FishDataService) {}
+
   locations = [];
   markerArray = [];
 
   lat: number = 44.2;
   lng: number = -89.0;
   zoom: number = 9;
+
   ngOnInit() {
     this.locations = this.fishService.getLocations();
     this.locations.forEach(l =>
