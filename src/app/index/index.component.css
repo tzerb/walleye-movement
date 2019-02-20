@@ -2,3 +2,7 @@
   margin-right: 0px;
   margin-left: 0px;
 }
+.index-header-image {
+  background-image: url("../../assets/walleye-tribe-cabin-colors-small.png");
+  background-size: 100px, 106px;
+}
