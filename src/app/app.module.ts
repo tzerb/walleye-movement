@@ -23,6 +23,7 @@ import { SingleFishComponent } from "./single-fish/single-fish.component";
 import { MovementMapComponent } from "./movement-map/movement-map.component";
 import { GoogleApiKey } from "./sensitive";
 import { IndexComponent } from './index/index.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +31,8 @@ import { IndexComponent } from './index/index.component';
     LocationsComponent,
     SingleFishComponent,
     MovementMapComponent,
-    IndexComponent
+    IndexComponent,
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,

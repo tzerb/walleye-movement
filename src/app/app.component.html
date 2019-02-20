@@ -1,8 +1,14 @@
-<!--The content below is only a placeholder and can be replaced.-->
+<mat-sidenav-container class="app-sidenav-container">
+  <mat-sidenav
+    class="app-sidenav mat-elevation-z10"
+    #sidenav
+    mode="side"
+    opened="false"
+  >
+  </mat-sidenav>
 
-<mat-sidenav-container
-  >This site is not in any way affiliated with the WI DNR.
+  <mat-sidenav-content color="primary" class="app-sidenav-content">
+    <app-toolbar></app-toolbar>
+    <div class="wrapper"><router-outlet></router-outlet></div>
+  </mat-sidenav-content>
 </mat-sidenav-container>
-<a href="/movement">Fish Movement</a> | <a href="/fish">fish</a> |
-<a href="/locations">Locations</a> |
-<router-outlet></router-outlet>
