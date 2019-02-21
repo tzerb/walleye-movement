@@ -1,5 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FishDataService } from "../fish-data.service";
+import { DomSanitizer } from "@angular/platform-browser";
+import { MatIconRegistry } from "@angular/material";
+import { HttpClientModule } from "@angular/common/http";
 
 @Component({
   selector: "app-fish",
@@ -7,7 +10,20 @@ import { FishDataService } from "../fish-data.service";
   styleUrls: ["./fish.component.css"]
 })
 export class FishComponent implements OnInit {
-  constructor(private fishService: FishDataService) {}
+  constructor(
+    iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer,
+    private fishService: FishDataService
+  ) {
+    iconRegistry.addSvgIcon(
+      "gender-male",
+      sanitizer.bypassSecurityTrustResourceUrl("../assets/gender-male.svg")
+    );
+    iconRegistry.addSvgIcon(
+      "gender-female",
+      sanitizer.bypassSecurityTrustResourceUrl("../assets/gender-female.svg")
+    );
+  }
 
   fish = [];
   locations = [];

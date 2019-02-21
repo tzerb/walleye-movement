@@ -1,3 +1,7 @@
 mat-slider {
   width: 100%;
 }
+
+.skinny-button {
+  margin: 0px, 0px;
+}

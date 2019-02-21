@@ -5,7 +5,20 @@
     [latitude]="m.lat"
     [longitude]="m.lng"
     [fillColor]="'#aa0000'"
-  ></agm-circle>
+  >
+  </agm-circle>
+
+  <agm-marker
+    *ngFor="let m of markerArray"
+    [latitude]="m.lat"
+    [longitude]="m.lng"
+    [label]="m.count"
+    [iconUrl]="iconUrl"
+  >
+    <agm-info-window>
+      <div color="primary">hello</div>
+    </agm-info-window></agm-marker
+  >
 </agm-map>
 
 <mat-card class="result">
@@ -22,6 +35,13 @@
       (input)="onInputChange($event)"
     ></mat-slider>
 
-    <div>{{ curDate }} - {{ value }}</div>
+    <div>
+      <button mat-icon-button color="accent" (click)="nextDate()">
+        <mat-icon>arrow_upward</mat-icon>
+      </button>
+      <button mat-icon-button color="accent" (click)="prevDate()">
+        <mat-icon>arrow_downward</mat-icon></button
+      >{{ curDate }}
+    </div>
   </mat-card-content>
 </mat-card>
