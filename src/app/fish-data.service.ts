@@ -167,6 +167,24 @@ export class FishDataService {
     return transitions;
   }
 
+  getIntegerHourFromTime(time: any): number {
+    var t = new Date(time);
+    debugger;
+    return t.getHours();
+  }
+
+  getContactsByHourOfDay() {
+    var fish = this.getFishWithMissingContactsAdded();
+
+    var hourArray = Array.from(Array(24), () => 0);
+    fish.forEach(f => {
+      f.Contacts.forEach(c => {
+        hourArray[this.getIntegerHourFromTime(c.Start)]++;
+      });
+    });
+    return hourArray;
+  }
+
   getMinMaxDates(fish: any): any {
     var max = 0;
     var min = new Date("1/1/2020").getTime();

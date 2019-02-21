@@ -5,12 +5,13 @@ import { SingleFishComponent } from "./single-fish/single-fish.component";
 import { LocationsComponent } from "./locations/locations.component";
 import { MovementMapComponent } from "./movement-map/movement-map.component";
 import { IndexComponent } from "./index/index.component";
-
+import { ContactsByHourComponent } from "./contacts-by-hour/contacts-by-hour.component";
 const routes: Routes = [
   { path: "fish", component: FishComponent },
   { path: "singlefish/:fishId", component: SingleFishComponent },
   { path: "locations", component: LocationsComponent },
   { path: "movement", component: MovementMapComponent },
+  { path: "byhour", component: ContactsByHourComponent },
   { path: "**", component: IndexComponent }
 ];
 

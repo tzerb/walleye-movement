@@ -27,6 +27,7 @@ import { MovementMapComponent } from "./movement-map/movement-map.component";
 import { GoogleApiKey } from "./sensitive";
 import { IndexComponent } from "./index/index.component";
 import { ToolbarComponent } from "./toolbar/toolbar.component";
+import { ContactsByHourComponent } from './contacts-by-hour/contacts-by-hour.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +36,8 @@ import { ToolbarComponent } from "./toolbar/toolbar.component";
     SingleFishComponent,
     MovementMapComponent,
     IndexComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    ContactsByHourComponent
   ],
   imports: [
     BrowserModule,
