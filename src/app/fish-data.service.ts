@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { fishData, locationsData, pathsData } from "./fish-data-small";
+import { fishData, locationsData, pathsData } from "./fish-data";
 
 @Injectable({
   providedIn: "root"
@@ -214,10 +214,12 @@ export class FishDataService {
         var a = this.truncDate(lastDate);
         var b = this.truncDate(t.Date);
         var nDays = b - a;
-        console.log(nDays);
-        for (var j = a; j <= b; j++) {
-          var dateIndex = Math.floor(j - this.truncDate(minMaxDates.min));
-          positions[dateIndex][lastLocationIndex]++;
+        if (nDays > 0) {
+          console.log(nDays);
+          for (var j = a; j <= b; j++) {
+            var dateIndex = Math.floor(j - this.truncDate(minMaxDates.min));
+            positions[dateIndex][lastLocationIndex]++;
+          }
         }
         lastDate = t.Date;
         lastLocationIndex = t.ToLocationIndex;

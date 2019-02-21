@@ -15,7 +15,8 @@ import {
   MatIconModule,
   MatListModule,
   MatStepperModule,
-  MatInputModule
+  MatInputModule,
+  MatBadgeModule
 } from "@angular/material";
 
 import { AppComponent } from "./app.component";
@@ -48,6 +49,7 @@ import { ToolbarComponent } from "./toolbar/toolbar.component";
     MatSliderModule,
     FormsModule,
     MatButtonModule,
+    MatBadgeModule,
     MatCheckboxModule,
     MatToolbarModule,
     MatSidenavModule,
