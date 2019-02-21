@@ -2,51 +2,34 @@ import { Component, OnInit } from "@angular/core";
 import { FishDataService } from "../fish-data.service";
 
 @Component({
-  selector: "app-contacts-by-hour",
-  templateUrl: "./contacts-by-hour.component.html",
-  styleUrls: ["./contacts-by-hour.component.css"]
+  selector: "chart-test.component",
+  templateUrl: "./chart-test.component.html"
 })
-export class ContactsByHourComponent implements OnInit {
+export class ChartTestComponent implements OnInit {
   constructor(private fishService: FishDataService) {}
 
   // lineChart
   public lineChartData: Array<any> = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: "Series A" },
-    { data: [18, 48, 77, 9, 100, 27, 40], label: "Series C" }
+    { data: [], label: "" },
+    { data: [], label: "" }
   ];
-  public lineChartLabels: Array<any> = [
-    "1 AM",
-    "2 AM",
-    "3 AM",
-    "4 AM",
-    "5 AM",
-    "6 AM",
-    "7 AM",
-    "8 AM",
-    "9 AM",
-    "10 AM",
-    "11 AM",
-    "12 PM",
-    "1 PM",
-    "2 PM",
-    "3 PM",
-    "4 PM",
-    "5 PM",
-    "6 PM",
-    "7 PM",
-    "8 PM",
-    "9 PM",
-    "10 PM",
-    "11 PM",
-    "12 PM"
-  ];
+
+  public lineChartLabels: Array<any> = Array(366);
 
   ngOnInit() {
-    this.lineChartData[0].data = this.fishService.getContactsByHourOfDay();
+    this.lineChartData[0].data = this.fishService.getContactsByDayOfYear();
     this.lineChartData[0].label = "All Fish";
 
-    this.lineChartData[1].data = Array(24).fill(0);
+    this.lineChartData[1].data = Array(366).fill(0);
     this.lineChartData[1].label = "Females";
+
+    for (var i = 0; i < 366; i++) {
+      if (i % 30 == 0) {
+        this.lineChartLabels[i] = this.fishService.computeDateFromDayOfYear(i);
+      } else {
+        this.lineChartLabels[i] = "";
+      }
+    }
   }
 
   public lineChartOptions: any = {

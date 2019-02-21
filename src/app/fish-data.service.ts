@@ -169,8 +169,21 @@ export class FishDataService {
 
   getIntegerHourFromTime(time: any): number {
     var t = new Date(time);
-    debugger;
     return t.getHours();
+  }
+
+  getIntegerDayOfYearFromTime(time: any): number {
+    var now = new Date(time);
+    var start = new Date(now.getFullYear(), 0, 0);
+    var diff = now.getTime() - start.getTime();
+    var oneDay = 1000 * 60 * 60 * 24;
+    var day = Math.floor(diff / oneDay);
+    return day;
+  }
+
+  computeDateFromDayOfYear(dayOfYear: number): string {
+    var date = new Date(dayOfYear * 1000 * 24 * 60 * 60);
+    return date.toLocaleDateString();
   }
 
   getContactsByHourOfDay() {
@@ -183,6 +196,18 @@ export class FishDataService {
       });
     });
     return hourArray;
+  }
+
+  getContactsByDayOfYear() {
+    var fish = this.getFishWithMissingContactsAdded();
+
+    var dayArray = Array.from(Array(366), () => 0);
+    fish.forEach(f => {
+      f.Contacts.forEach(c => {
+        dayArray[this.getIntegerDayOfYearFromTime(c.Start)]++;
+      });
+    });
+    return dayArray;
   }
 
   getMinMaxDates(fish: any): any {

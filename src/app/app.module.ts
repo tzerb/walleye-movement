@@ -18,6 +18,7 @@ import {
   MatInputModule,
   MatBadgeModule
 } from "@angular/material";
+import { ChartsModule } from "ng2-charts";
 
 import { AppComponent } from "./app.component";
 import { FishComponent } from "./fish/fish.component";
@@ -27,7 +28,9 @@ import { MovementMapComponent } from "./movement-map/movement-map.component";
 import { GoogleApiKey } from "./sensitive";
 import { IndexComponent } from "./index/index.component";
 import { ToolbarComponent } from "./toolbar/toolbar.component";
-import { ContactsByHourComponent } from './contacts-by-hour/contacts-by-hour.component';
+import { ContactsByHourComponent } from "./contacts-by-hour/contacts-by-hour.component";
+import { ContactsByDayComponent } from "./contacts-by-day/contacts-by-day.component";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,12 +40,14 @@ import { ContactsByHourComponent } from './contacts-by-hour/contacts-by-hour.com
     MovementMapComponent,
     IndexComponent,
     ToolbarComponent,
-    ContactsByHourComponent
+    ContactsByHourComponent,
+    ContactsByDayComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    ChartsModule,
     AgmCoreModule.forRoot({
       apiKey: GoogleApiKey
     }),
