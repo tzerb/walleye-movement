@@ -10,12 +10,15 @@
     <a mat-stroked-button href="/">Home</a>
     <a mat-stroked-button href="/movement">Fish Movement</a>
     <a mat-stroked-button href="/fish">Meet the Fish</a>
-    <a mat-stroked-button href="/locations">Receiver Locations</a>
+    <!-- <a mat-stroked-button href="/locations">Receiver Locations</a>
     <a mat-stroked-button href="/byhour">Contacts by Hour</a>
-    <a mat-stroked-button href="/byday">Contacts by Day</a>
+    <a mat-stroked-button href="/byday">Contacts by Day</a> -->
 
     <button mat-button [matMenuTriggerFor]="menu">Diagnostics</button>
     <mat-menu #menu="matMenu">
+      <a mat-menu-item href="/locations">Receiver Locations</a>
+      <a mat-menu-item href="/byhour">Contacts by Hour</a>
+      <a mat-menu-item href="/byday">Contacts by Day</a>
       <a mat-menu-item href="/contactsmissedbyreceiver"
         >Contacts Missed by Receiver</a
       >

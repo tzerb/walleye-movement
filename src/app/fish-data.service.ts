@@ -1,14 +1,54 @@
 import { Injectable } from "@angular/core";
 import { fishData, locationsData, pathsData } from "./fish-data";
 
+export interface IFishModel {
+  Region: string;
+  Code: string;
+  Location: string;
+  TaggingDate: string;
+  Length: number;
+  // Mature: boolean;
+  Sex: string;
+  Contacts: Array<IContact>;
+}
+
+export interface IFishModelWithMisstingContacts {
+  Region: string;
+  Code: string;
+  Location: string;
+  TaggingDate: string;
+  Length: number;
+  // Mature: boolean;
+  Sex: string;
+  Contacts: Array<IContact>;
+  FakedContacts: number;
+}
+
+export interface ILocation {
+  Id: string;
+  Name: string;
+  Lat: number;
+  Lng: number;
+}
+export interface IContact {
+  LocationId: string;
+  Start: string;
+}
+
+export interface ITransition {
+  Date: number;
+  FromLocationIndex: number;
+  ToLocationIndex: number;
+}
+
 @Injectable({
   providedIn: "root"
 })
 export class FishDataService {
   constructor() {}
 
-  private fakeMissedContacts(path, lastContact, thisContact) {
-    var c = { LocationId: "", Start: "", Contacts: 0 };
+  private fakeMissedContacts(path, lastContact, thisContact): Array<IContact> {
+    var c: IContact = { LocationId: "", Start: "" };
     var list = [];
     var lastDate = new Date(lastContact.Start);
     var thisDate = new Date(thisContact.Start);
@@ -16,8 +56,7 @@ export class FishDataService {
     var lastIndex = path.indexOf(lastContact.LocationId);
     var thisIndex = path.indexOf(thisContact.LocationId);
 
-    var diff =
-      (thisDate.getTime() - lastDate.getTime()) / (thisIndex - lastIndex);
+    var diff = (thisDate.getTime() - lastDate.getTime()) / (thisIndex - lastIndex);
     var numberToAdd = Math.abs(thisIndex - lastIndex);
     var sign = Math.sign(thisIndex - lastIndex);
 
@@ -33,15 +72,15 @@ export class FishDataService {
     return list;
   }
 
-  private findPathDifference(path, lastLocId, thisLocId) {
+  private findPathDifference(path: Array<string>, lastLocId: string, thisLocId: string): number {
     var lastIndex = path.indexOf(lastLocId);
     var thisIndex = path.indexOf(thisLocId);
     if (lastIndex >= 0 && thisIndex >= 0) return lastIndex - thisIndex;
     return -1000; // Big difference to simplify algorithm
   }
 
-  private findPathDifferences(lastLocId, thisLocId) {
-    var retArray = [];
+  private findPathDifferences(lastLocId: string, thisLocId: string): Array<number> {
+    var retArray: Array<number> = [];
     var paths = this.getPaths();
     for (var i = 0; i < paths.length; i++) {
       if (lastLocId === thisLocId) {
@@ -64,11 +103,11 @@ export class FishDataService {
     return min;
   }
 
-  getLocations() {
+  getLocations(): Array<ILocation> {
     return locationsData;
   }
 
-  sortContacts(contacts: [any]): [any] {
+  sortContacts(contacts: Array<IContact>): Array<IContact> {
     return contacts.sort((a, b) => {
       var aa = new Date(a.Start);
       var bb = new Date(b.Start);
@@ -77,10 +116,10 @@ export class FishDataService {
     });
   }
 
-  getFakedContactsForOneFish(onefish) {
+  getFakedContactsForOneFish(onefish: IFishModel): Array<IContact> {
     var paths = this.getPaths();
 
-    var fakedContacts = [];
+    var fakedContacts: Array<IContact> = [];
 
     // Make sure the contacts are sorted
     onefish.Contacts = this.sortContacts(onefish.Contacts);
@@ -92,21 +131,14 @@ export class FishDataService {
         console.log(`ERROR ${lastContact.Start} ${onefish.Contacts[i].Start}`);
       }
 
-      var pd = this.findPathDifferences(
-        lastContact.LocationId,
-        onefish.Contacts[i].LocationId
-      );
+      var pd = this.findPathDifferences(lastContact.LocationId, onefish.Contacts[i].LocationId);
 
       var mpd = this.minPathDifference(pd);
 
       if (mpd.value > 1) {
         console.log(`tdiff = ${lastDate.getTime() - thisDate.getTime()}`);
         console.log(`min = ${mpd.value}, path = ${mpd.index}`);
-        var l = this.fakeMissedContacts(
-          paths[mpd.index],
-          lastContact,
-          onefish.Contacts[i]
-        );
+        var l = this.fakeMissedContacts(paths[mpd.index], lastContact, onefish.Contacts[i]);
         fakedContacts = fakedContacts.concat(l); // TODO TZ
       }
 
@@ -115,25 +147,24 @@ export class FishDataService {
     return fakedContacts;
   }
 
-  getOneFishWithMissingContactsAdded(onefish) {
-    var returnedFish = {
+  getOneFishWithMissingContactsAdded(onefish: IFishModel): IFishModelWithMisstingContacts {
+    var returnedFish: IFishModelWithMisstingContacts = {
+      Code: onefish.Code,
       Sex: onefish.Sex,
       TaggingDate: onefish.TaggingDate,
-      Mature: onefish.Mature,
+      Location: onefish.Location,
       Length: onefish.Length,
       Region: onefish.Region,
       FakedContacts: 0,
       Contacts: []
     };
     var fakedContacts = this.getFakedContactsForOneFish(onefish);
-    returnedFish.Contacts = this.sortContacts(
-      onefish.Contacts.concat(fakedContacts)
-    );
+    returnedFish.Contacts = this.sortContacts(onefish.Contacts.concat(fakedContacts));
     returnedFish.FakedContacts = fakedContacts.length;
     return returnedFish;
   }
 
-  getFishWithMissingContactsAdded() {
+  getFishWithMissingContactsAdded(): Array<IFishModel> {
     var ret = [];
     var fish = this.getFish();
     for (var j = 0; j < fish.length; j++) {
@@ -142,7 +173,7 @@ export class FishDataService {
     return ret;
   }
 
-  getLocationIndexFromRegionOrLocationId(region: string) {
+  getLocationIndexFromRegionOrLocationId(region: string): number {
     var locationIndex = null;
     var i = 0;
     locationsData.forEach(l => {
@@ -157,16 +188,14 @@ export class FishDataService {
     return locationIndex;
   }
 
-  getTransitions(fish: any) {
+  getTransitions(fish: any): Array<ITransition> {
     var transitions = [];
     var lastLoc = this.getLocationIndexFromRegionOrLocationId(fish.Region);
     fish.Contacts.forEach(c => {
       transitions.push({
         Date: new Date(c.Start).getTime(),
         FromLocationIndex: lastLoc,
-        ToLocationIndex: this.getLocationIndexFromRegionOrLocationId(
-          c.LocationId
-        )
+        ToLocationIndex: this.getLocationIndexFromRegionOrLocationId(c.LocationId)
       });
       lastLoc = this.getLocationIndexFromRegionOrLocationId(c.LocationId);
     });
@@ -256,9 +285,7 @@ export class FishDataService {
     fish.forEach(f => {
       var transitions = this.getTransitions(f);
       var lastDate = new Date(f.TaggingDate).getTime();
-      var lastLocationIndex = this.getLocationIndexFromRegionOrLocationId(
-        f.Region
-      );
+      var lastLocationIndex = this.getLocationIndexFromRegionOrLocationId(f.Region);
       transitions.forEach(t => {
         var a = this.truncDate(lastDate);
         var b = this.truncDate(t.Date);
@@ -290,7 +317,7 @@ export class FishDataService {
     return pathsData;
   }
 
-  getFish() {
+  getFish(): Array<IFishModel> {
     return fishData;
   }
 
@@ -309,18 +336,14 @@ export class FishDataService {
 
     fishData.forEach(f => {
       f.Contacts.forEach(c => {
-        var locIndex = this.getLocationIndexFromRegionOrLocationId(
-          c.LocationId
-        );
+        var locIndex = this.getLocationIndexFromRegionOrLocationId(c.LocationId);
         locationArray[locIndex].contacts++;
       });
 
       var fakedContacts = this.getFakedContactsForOneFish(f);
       if (fakedContacts) {
         fakedContacts.forEach(c => {
-          var locIndex = this.getLocationIndexFromRegionOrLocationId(
-            c.LocationId
-          );
+          var locIndex = this.getLocationIndexFromRegionOrLocationId(c.LocationId);
           locationArray[locIndex].missedContacts++;
         });
       }
