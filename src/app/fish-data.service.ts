@@ -7,7 +7,7 @@ import { fishData, locationsData, pathsData } from "./fish-data";
 export class FishDataService {
   constructor() {}
 
-  private fakeMissedContects(path, lastContact, thisContact) {
+  private fakeMissedContacts(path, lastContact, thisContact) {
     var c = { LocationId: "", Start: "", Contacts: 0 };
     var list = [];
     var lastDate = new Date(lastContact.Start);
@@ -77,17 +77,9 @@ export class FishDataService {
     });
   }
 
-  getOneFishWithMissingContactsAdded(onefish) {
+  getFakedContactsForOneFish(onefish) {
     var paths = this.getPaths();
-    var returnedFish = {
-      Sex: onefish.Sex,
-      TaggingDate: onefish.TaggingDate,
-      Mature: onefish.Mature,
-      Length: onefish.Length,
-      Region: onefish.Region,
-      FakedContacts: 0,
-      Contacts: []
-    };
+
     var fakedContacts = [];
 
     // Make sure the contacts are sorted
@@ -110,16 +102,30 @@ export class FishDataService {
       if (mpd.value > 1) {
         console.log(`tdiff = ${lastDate.getTime() - thisDate.getTime()}`);
         console.log(`min = ${mpd.value}, path = ${mpd.index}`);
-        fakedContacts.concat(
-          this.fakeMissedContects(
-            paths[mpd.index],
-            lastContact,
-            onefish.Contacts[i]
-          )
+        var l = this.fakeMissedContacts(
+          paths[mpd.index],
+          lastContact,
+          onefish.Contacts[i]
         );
+        fakedContacts = fakedContacts.concat(l); // TODO TZ
       }
+
       lastContact = onefish.Contacts[i];
     }
+    return fakedContacts;
+  }
+
+  getOneFishWithMissingContactsAdded(onefish) {
+    var returnedFish = {
+      Sex: onefish.Sex,
+      TaggingDate: onefish.TaggingDate,
+      Mature: onefish.Mature,
+      Length: onefish.Length,
+      Region: onefish.Region,
+      FakedContacts: 0,
+      Contacts: []
+    };
+    var fakedContacts = this.getFakedContactsForOneFish(onefish);
     returnedFish.Contacts = this.sortContacts(
       onefish.Contacts.concat(fakedContacts)
     );
@@ -286,5 +292,58 @@ export class FishDataService {
 
   getFish() {
     return fishData;
+  }
+
+  getMissedContactsByLocation() {
+    debugger;
+    var locationArray: Array<any> = Array<any>();
+
+    locationsData.forEach(l => {
+      locationArray.push({
+        location: l.Name,
+        contacts: 0,
+        missedContacts: 0,
+        pctMissed: 0.0
+      });
+    });
+
+    fishData.forEach(f => {
+      f.Contacts.forEach(c => {
+        var locIndex = this.getLocationIndexFromRegionOrLocationId(
+          c.LocationId
+        );
+        locationArray[locIndex].contacts++;
+      });
+
+      var fakedContacts = this.getFakedContactsForOneFish(f);
+      if (fakedContacts) {
+        fakedContacts.forEach(c => {
+          var locIndex = this.getLocationIndexFromRegionOrLocationId(
+            c.LocationId
+          );
+          locationArray[locIndex].missedContacts++;
+        });
+      }
+    });
+
+    locationArray.forEach(l => {
+      l.pctMissed = l.missedContacts / l.contacts;
+    });
+
+    return locationArray;
+  }
+
+  getMissedContactsByFish(): Array<number> {
+    var missedContacts: Array<number> = Array<number>();
+    fishData.forEach(f => {
+      var fakedContacts = this.getFakedContactsForOneFish(f);
+      if (fakedContacts) {
+        missedContacts.push(fakedContacts.length);
+      } else {
+        missedContacts.push(0);
+      }
+    });
+
+    return missedContacts;
   }
 }

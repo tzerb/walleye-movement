@@ -1,0 +1,8 @@
+<p>
+  You would expect the fish to hit every receiver. If there are three receiver
+  A, B and C. If the fish hits A and then C, receiver B was missed.
+</p>
+<div *ngFor="let mc of missedContacts; let i = index">
+  {{ mc.location }} : {{ mc.contacts }} : {{ mc.missedContacts }}:
+  {{ mc.pctMissed | percent: ".3-5" }}
+</div>

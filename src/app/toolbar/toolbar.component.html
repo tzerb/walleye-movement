@@ -13,5 +13,14 @@
     <a mat-stroked-button href="/locations">Receiver Locations</a>
     <a mat-stroked-button href="/byhour">Contacts by Hour</a>
     <a mat-stroked-button href="/byday">Contacts by Day</a>
+
+    <button mat-button [matMenuTriggerFor]="menu">Diagnostics</button>
+    <mat-menu #menu="matMenu">
+      <a mat-menu-item href="/contactsmissedbyreceiver"
+        >Contacts Missed by Receiver</a
+      >
+      <a mat-menu-item href="/contactsperfish">Contacts per Fish</a>
+      <a mat-menu-item href="/contactsperreceiver">Contacts per Receiver</a>
+    </mat-menu>
   </div>
 </div>
