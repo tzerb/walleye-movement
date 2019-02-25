@@ -1,13 +1,13 @@
+/* Angular imports */
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
-import { AgmCoreModule } from "@agm/core";
 import { HttpClientModule } from "@angular/common/http";
-
-import { AppRoutingModule } from "./app-routing.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FormsModule } from "@angular/forms";
-import { MatButtonModule, MatCheckboxModule } from "@angular/material";
+
 import {
+  MatButtonModule,
+  MatCheckboxModule,
   MatCardModule,
   MatSliderModule,
   MatToolbarModule,
@@ -19,8 +19,13 @@ import {
   MatBadgeModule,
   MatMenuModule
 } from "@angular/material";
-import { ChartsModule } from "ng2-charts";
 
+/* third party imports */
+import { ChartsModule } from "ng2-charts";
+import { AgmCoreModule } from "@agm/core";
+
+/* custom components */
+import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { FishComponent } from "./fish/fish.component";
 import { LocationsComponent } from "./locations/locations.component";
