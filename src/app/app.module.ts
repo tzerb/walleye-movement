@@ -17,7 +17,8 @@ import {
   MatStepperModule,
   MatInputModule,
   MatBadgeModule,
-  MatMenuModule
+  MatMenuModule,
+  MatDialogModule
 } from "@angular/material";
 
 /* third party imports */
@@ -39,6 +40,7 @@ import { ContactsByDayComponent } from "./contacts-by-day/contacts-by-day.compon
 import { ContactsPerReceiverComponent } from "./contacts-per-receiver/contacts-per-receiver.component";
 import { ContactsPerFishComponent } from "./contacts-per-fish/contacts-per-fish.component";
 import { ContactsMissedByReceiverComponent } from "./contacts-missed-by-receiver/contacts-missed-by-receiver.component";
+import { FishFilterDialogComponent } from './fish-filter-dialog/fish-filter-dialog.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,8 @@ import { ContactsMissedByReceiverComponent } from "./contacts-missed-by-receiver
     ContactsByDayComponent,
     ContactsPerReceiverComponent,
     ContactsPerFishComponent,
-    ContactsMissedByReceiverComponent
+    ContactsMissedByReceiverComponent,
+    FishFilterDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -76,9 +79,12 @@ import { ContactsMissedByReceiverComponent } from "./contacts-missed-by-receiver
     MatListModule,
     MatStepperModule,
     MatInputModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDialogModule
+
   ],
   providers: [],
+  entryComponents: [FishFilterDialogComponent],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

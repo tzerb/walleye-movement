@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>Chose how to filter data.</h1>
+<div mat-dialog-content>
+  <p>Include fish with the following gender:</p>
+  <section class="">
+    <mat-checkbox class="dialog-options" [(ngModel)]="data.males">Males</mat-checkbox>
+    <mat-checkbox class="dialog-options" [(ngModel)]="data.females">Females</mat-checkbox>
+  </section>
+  <p>Include fish in the following year:</p>
+  <section class="">
+    <mat-checkbox class="dialog-options" [(ngModel)]="data.year2011">2011</mat-checkbox>
+    <mat-checkbox class="dialog-options" [(ngModel)]="data.year2012">2012</mat-checkbox>
+    <mat-checkbox class="dialog-options" [(ngModel)]="data.year2013">2013</mat-checkbox>
+  </section>
+  <p>Include fish tagged in the following area:</p>
+  <section class="">
+    <mat-checkbox class="dialog-options" [(ngModel)]="data.wolf">Wolf</mat-checkbox>
+    <mat-checkbox class="dialog-options" [(ngModel)]="data.fox">Fox</mat-checkbox>
+    <mat-checkbox class="dialog-options" [(ngModel)]="data.winnebago">Winnebago</mat-checkbox>
+  </section>
+</div>
+<div>&nbsp;</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+</div>
+<div>&nbsp;</div>

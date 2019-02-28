@@ -1,8 +1,6 @@
 <mat-toolbar color="primary">
-  <span
-    ><a href="http://www.walleyeTribe.com"
-      ><img class="header-image" src="../../assets/walleye-tribe-logo3.png"/></a
-  ></span>
+  <span><a href="http://www.walleyeTribe.com"><img class="header-image"
+        src="../../assets/walleye-tribe-logo3.png" /></a></span>
   <span class="header-text"> Winnebago Walleye Movement Animation</span>
 </mat-toolbar>
 <div>
@@ -19,11 +17,11 @@
       <a mat-menu-item href="/locations">Receiver Locations</a>
       <a mat-menu-item href="/byhour">Contacts by Hour</a>
       <a mat-menu-item href="/byday">Contacts by Day</a>
-      <a mat-menu-item href="/contactsmissedbyreceiver"
-        >Contacts Missed by Receiver</a
-      >
+      <a mat-menu-item href="/contactsmissedbyreceiver">Contacts Missed by Receiver</a>
       <a mat-menu-item href="/contactsperfish">Contacts per Fish</a>
       <a mat-menu-item href="/contactsperreceiver">Contacts per Receiver</a>
     </mat-menu>
+
+    <button mat-button (click)='onClickFilters()'>Filters</button>
   </div>
 </div>
