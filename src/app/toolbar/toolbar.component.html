@@ -12,7 +12,7 @@
     <a mat-stroked-button href="/byhour">Contacts by Hour</a>
     <a mat-stroked-button href="/byday">Contacts by Day</a> -->
 
-    <button mat-button [matMenuTriggerFor]="menu">Diagnostics</button>
+    <button mat-stroked-button [matMenuTriggerFor]="menu">Diagnostics</button>
     <mat-menu #menu="matMenu">
       <a mat-menu-item href="/locations">Receiver Locations</a>
       <a mat-menu-item href="/byhour">Contacts by Hour</a>
@@ -20,8 +20,9 @@
       <a mat-menu-item href="/contactsmissedbyreceiver">Contacts Missed by Receiver</a>
       <a mat-menu-item href="/contactsperfish">Contacts per Fish</a>
       <a mat-menu-item href="/contactsperreceiver">Contacts per Receiver</a>
+      <a mat-menu-item href="/filterdisplay">Display filter settings</a>
     </mat-menu>
 
-    <button mat-button (click)='onClickFilters()'>Filters</button>
+    <button mat-stroked-button (click)='onClickFilters()'>Filters</button>
   </div>
 </div>

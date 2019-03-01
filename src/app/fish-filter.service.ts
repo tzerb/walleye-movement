@@ -1,30 +1,34 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FishFilterService {
 
-  filter: FishFilterData;
+  private filter: BehaviorSubject<FishFilterData>;
 
   constructor() {
-    this.filter = {
-      males: true,
-      females: true,
-      year2011: true,
-      year2012: true,
-      year2013: true,
-      wolf: true,
-      fox: true,
-      winnebago: true
-    };
+    this.filter = new BehaviorSubject<FishFilterData>(
+      {
+        males: true,
+        females: true,
+        year2011: true,
+        year2012: true,
+        year2013: true,
+        wolf: true,
+        fox: true,
+        winnebago: true
+      });
+
+
   }
 
   setFilter(filter: FishFilterData) {
-    this.filter = filter;
+    //this.filter = filter;
   }
 
-  getFilter() {//: FishFilterData 
+  getFilter(): Observable<FishFilterData> {
     return this.filter;
   }
 }

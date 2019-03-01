@@ -41,6 +41,7 @@ import { ContactsPerReceiverComponent } from "./contacts-per-receiver/contacts-p
 import { ContactsPerFishComponent } from "./contacts-per-fish/contacts-per-fish.component";
 import { ContactsMissedByReceiverComponent } from "./contacts-missed-by-receiver/contacts-missed-by-receiver.component";
 import { FishFilterDialogComponent } from './fish-filter-dialog/fish-filter-dialog.component';
+import { FilterDisplayComponent } from './filter-display/filter-display.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { FishFilterDialogComponent } from './fish-filter-dialog/fish-filter-dial
     ContactsPerReceiverComponent,
     ContactsPerFishComponent,
     ContactsMissedByReceiverComponent,
-    FishFilterDialogComponent
+    FishFilterDialogComponent,
+    FilterDisplayComponent
   ],
   imports: [
     BrowserModule,

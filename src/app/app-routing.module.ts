@@ -10,6 +10,7 @@ import { ContactsByDayComponent } from "./contacts-by-day/contacts-by-day.compon
 import { ContactsPerReceiverComponent } from "./contacts-per-receiver/contacts-per-receiver.component";
 import { ContactsPerFishComponent } from "./contacts-per-fish/contacts-per-fish.component";
 import { ContactsMissedByReceiverComponent } from "./contacts-missed-by-receiver/contacts-missed-by-receiver.component";
+import { FilterDisplayComponent } from './filter-display/filter-display.component';
 
 const routes: Routes = [
   { path: "fish", component: FishComponent },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: "contactsmissedbyreceiver", component: ContactsPerReceiverComponent },
   { path: "contactsperfish", component: ContactsPerFishComponent },
   { path: "contactsperreceiver", component: ContactsMissedByReceiverComponent },
+  { path: "filterdisplay", component: FilterDisplayComponent },
 
   { path: "**", component: IndexComponent }
 ];
@@ -30,4 +32,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
