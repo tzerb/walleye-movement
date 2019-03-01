@@ -37,7 +37,6 @@ import { IndexComponent } from "./index/index.component";
 import { ToolbarComponent } from "./toolbar/toolbar.component";
 import { ContactsByHourComponent } from "./contacts-by-hour/contacts-by-hour.component";
 import { ContactsByDayComponent } from "./contacts-by-day/contacts-by-day.component";
-import { ContactsPerReceiverComponent } from "./contacts-per-receiver/contacts-per-receiver.component";
 import { ContactsPerFishComponent } from "./contacts-per-fish/contacts-per-fish.component";
 import { ContactsMissedByReceiverComponent } from "./contacts-missed-by-receiver/contacts-missed-by-receiver.component";
 import { FishFilterDialogComponent } from './fish-filter-dialog/fish-filter-dialog.component';
@@ -54,7 +53,6 @@ import { FilterDisplayComponent } from './filter-display/filter-display.componen
     ToolbarComponent,
     ContactsByHourComponent,
     ContactsByDayComponent,
-    ContactsPerReceiverComponent,
     ContactsPerFishComponent,
     ContactsMissedByReceiverComponent,
     FishFilterDialogComponent,
