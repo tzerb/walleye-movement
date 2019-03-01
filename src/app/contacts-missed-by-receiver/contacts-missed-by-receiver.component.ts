@@ -7,8 +7,11 @@ import { FishDataService } from "../fish-data.service";
   styleUrls: ["./contacts-missed-by-receiver.component.css"]
 })
 export class ContactsMissedByReceiverComponent implements OnInit {
+
   missedContacts: Array<any>;
-  constructor(private fishService: FishDataService) {}
+  displayedColumns: string[] = ['location', 'contacts', 'missedContacts', 'pctMissed'];
+
+  constructor(private fishService: FishDataService) { }
 
   ngOnInit() {
     this.missedContacts = this.fishService.getMissedContactsByLocation();

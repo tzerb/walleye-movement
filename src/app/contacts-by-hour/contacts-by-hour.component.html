@@ -1,8 +1,10 @@
 <div class='container'>
   <div class='filter'>
+
     <app-filter-display></app-filter-display>
   </div>
   <div class='chart'>
+    Walleyes are generally considered nocturnal creatures. What time of day are they usually moving?
     <canvas baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
       [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType"
       (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>

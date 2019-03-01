@@ -1,14 +1,9 @@
 <p>
-  Receiver Locations
+  Approximate Receiver Locations
 </p>
 
 <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
-  <agm-marker
-    *ngFor="let m of markerArray"
-    [latitude]="m.lat"
-    [longitude]="m.lng"
-    [label]="m.label"
-  ></agm-marker>
+  <agm-marker *ngFor="let m of markerArray" [latitude]="m.lat" [longitude]="m.lng" [label]="m.label"></agm-marker>
 </agm-map>
 
 <mat-card class="result">
