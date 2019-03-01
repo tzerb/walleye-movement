@@ -15,3 +15,6 @@
   <mat-checkbox class="dialog-options" [(ngModel)]="data.fox">Fox</mat-checkbox>
   <mat-checkbox class="dialog-options" [(ngModel)]="data.winnebago">Winnebago</mat-checkbox>
 </section>
+
+<button mat-button (click)="onSaveClick()" cdkFocusInitial
+  [disabled]="(data.males==false && data.females==false) ||(!data.year2011 && !data.year2012 &&!data.year2013) ||(!data.winnebago && !data.fox && !data.wolf)">Ok</button>

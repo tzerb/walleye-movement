@@ -1,0 +1,10 @@
+.container{
+    display:flex;
+}
+.filter{
+    flex:2;
+}
+.chart{
+    flex:7;
+    padding:25px;
+}

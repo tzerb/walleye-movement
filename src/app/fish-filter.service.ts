@@ -20,12 +20,10 @@ export class FishFilterService {
         fox: true,
         winnebago: true
       });
-
-
   }
 
   setFilter(filter: FishFilterData) {
-    //this.filter = filter;
+    this.filter.next(filter);
   }
 
   getFilter(): Observable<FishFilterData> {

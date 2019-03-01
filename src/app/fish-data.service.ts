@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
 import { fishData, locationsData, pathsData } from "./fish-data";
+import { FishFilterService, FishFilterData } from './fish-filter.service';
+import { BehaviorSubject } from 'rxjs';
 
 export interface IFishModel {
   Region: string;
@@ -46,7 +48,54 @@ export interface ITransition {
 })
 export class FishDataService {
 
-  constructor() { }
+
+  private contactsByDayOfYear: BehaviorSubject<number[]>;
+  private contactsByHourOfDay: BehaviorSubject<number[]>;
+
+  constructor(private filterService: FishFilterService) {
+
+    this.contactsByDayOfYear = new BehaviorSubject<number[]>([]);
+    this.contactsByHourOfDay = new BehaviorSubject<number[]>([]);
+    this.filterService.getFilter().subscribe(filter => {
+      var fish = this.getFishWithMissingContactsAdded();
+      var dayArray = Array.from(Array(366), () => 0);
+      fish.forEach(f => {
+        if (this.shouldIncludeFish(f, filter)) {
+          f.Contacts.forEach(c => {
+            if (this.shouldIncludeContact(c, filter)) {
+              dayArray[this.getIntegerDayOfYearFromTime(c.Start)]++;
+            }
+          });
+        }
+      });
+      this.contactsByDayOfYear.next(dayArray);
+
+      var hourArray = Array.from(Array(24), () => 0);
+      fish.forEach(f => {
+        if (this.shouldIncludeFish(f, filter)) {
+          f.Contacts.forEach(c => {
+            if (this.shouldIncludeContact(c, filter)) {
+              hourArray[this.getIntegerHourFromTime(c.Start)]++;
+            }
+          });
+        }
+      });
+      this.contactsByHourOfDay.next(hourArray);;
+
+    });
+
+  }
+
+  private shouldIncludeContact(contact: IContact, filter: FishFilterData) {
+    var year = new Date(contact.Start).getFullYear();
+    return (year == 2011 && filter.year2011) || (year == 2012 && filter.year2012) || (year == 2013 && filter.year2013);
+  }
+
+  private shouldIncludeFish(fish: IFishModel, filter: FishFilterData) {
+    var sex = (fish.Sex == 'Male' && filter.males) || (fish.Sex == 'Female' && filter.females);
+    var tagLocation = (fish.Region == 'Wolf' && filter.wolf) || (fish.Region == 'Fox' && filter.fox) || (fish.Region == 'Winnebago' && filter.winnebago)
+    return sex && tagLocation;
+  }
 
   private fakeMissedContacts(path, lastContact, thisContact): Array<IContact> {
     var c: IContact = { LocationId: "", Start: "" };
@@ -223,27 +272,11 @@ export class FishDataService {
   }
 
   getContactsByHourOfDay() {
-    var fish = this.getFishWithMissingContactsAdded();
-
-    var hourArray = Array.from(Array(24), () => 0);
-    fish.forEach(f => {
-      f.Contacts.forEach(c => {
-        hourArray[this.getIntegerHourFromTime(c.Start)]++;
-      });
-    });
-    return hourArray;
+    return this.contactsByHourOfDay.asObservable();
   }
 
   getContactsByDayOfYear() {
-    var fish = this.getFishWithMissingContactsAdded();
-
-    var dayArray = Array.from(Array(366), () => 0);
-    fish.forEach(f => {
-      f.Contacts.forEach(c => {
-        dayArray[this.getIntegerDayOfYearFromTime(c.Start)]++;
-      });
-    });
-    return dayArray;
+    return this.contactsByDayOfYear.asObservable();
   }
 
   getMinMaxDates(fish: any): any {

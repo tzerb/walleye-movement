@@ -16,5 +16,7 @@ export class FilterDisplayComponent implements OnInit {
   constructor(
     private fishFilterService: FishFilterService) {
   }
-
+  onSaveClick(): void {
+    this.fishFilterService.setFilter(this.data);
+  }
 }

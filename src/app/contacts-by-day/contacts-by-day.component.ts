@@ -7,22 +7,24 @@ import { FishDataService } from "../fish-data.service";
   styleUrls: ["./contacts-by-day.component.css"]
 })
 export class ContactsByDayComponent implements OnInit {
-  constructor(private fishService: FishDataService) {}
+  constructor(private fishService: FishDataService) { }
 
   // lineChart
   public lineChartData: Array<any> = [
-    { data: [], label: "" },
     { data: [], label: "" }
   ];
 
   public lineChartLabels: Array<any> = Array(366);
 
   ngOnInit() {
-    this.lineChartData[0].data = this.fishService.getContactsByDayOfYear();
-    this.lineChartData[0].label = "All Fish";
+    this.fishService.getContactsByDayOfYear().subscribe(cdy => {
+      let _lineChartData: Array<any> = [{ data: [], label: "" }];// new Array(1);
 
-    this.lineChartData[1].data = Array(366).fill(0);
-    this.lineChartData[1].label = "Females";
+      _lineChartData[0].data = cdy;
+      _lineChartData[0].label = "All Fish";
+
+      this.lineChartData = _lineChartData;
+    });
 
     for (var i = 0; i < 366; i++) {
       if (i % 30 == 0) {
@@ -67,20 +69,6 @@ export class ContactsByDayComponent implements OnInit {
   ];
   public lineChartLegend: boolean = true;
   public lineChartType: string = "line";
-
-  public randomize(): void {
-    let _lineChartData: Array<any> = new Array(this.lineChartData.length);
-    for (let i = 0; i < this.lineChartData.length; i++) {
-      _lineChartData[i] = {
-        data: new Array(this.lineChartData[i].data.length),
-        label: this.lineChartData[i].label
-      };
-      for (let j = 0; j < this.lineChartData[i].data.length; j++) {
-        _lineChartData[i].data[j] = Math.floor(Math.random() * 100 + 1);
-      }
-    }
-    this.lineChartData = _lineChartData;
-  }
 
   // events
   public chartClicked(e: any): void {
