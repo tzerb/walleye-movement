@@ -45,7 +45,8 @@ export interface ITransition {
   providedIn: "root"
 })
 export class FishDataService {
-  constructor() {}
+
+  constructor() { }
 
   private fakeMissedContacts(path, lastContact, thisContact): Array<IContact> {
     var c: IContact = { LocationId: "", Start: "" };
@@ -107,7 +108,7 @@ export class FishDataService {
     return locationsData;
   }
 
-  sortContacts(contacts: Array<IContact>): Array<IContact> {
+  private sortContacts(contacts: Array<IContact>): Array<IContact> {
     return contacts.sort((a, b) => {
       var aa = new Date(a.Start);
       var bb = new Date(b.Start);
@@ -116,7 +117,7 @@ export class FishDataService {
     });
   }
 
-  getFakedContactsForOneFish(onefish: IFishModel): Array<IContact> {
+  private getFakedContactsForOneFish(onefish: IFishModel): Array<IContact> {
     var paths = this.getPaths();
 
     var fakedContacts: Array<IContact> = [];
@@ -147,7 +148,7 @@ export class FishDataService {
     return fakedContacts;
   }
 
-  getOneFishWithMissingContactsAdded(onefish: IFishModel): IFishModelWithMisstingContacts {
+  private getOneFishWithMissingContactsAdded(onefish: IFishModel): IFishModelWithMisstingContacts {
     var returnedFish: IFishModelWithMisstingContacts = {
       Code: onefish.Code,
       Sex: onefish.Sex,
@@ -164,16 +165,16 @@ export class FishDataService {
     return returnedFish;
   }
 
-  getFishWithMissingContactsAdded(): Array<IFishModel> {
+  private getFishWithMissingContactsAdded(): Array<IFishModel> {
     var ret = [];
-    var fish = this.getFish();
+    var fish = this.filteredFishData();
     for (var j = 0; j < fish.length; j++) {
       ret[j] = this.getOneFishWithMissingContactsAdded(fish[j]);
     }
     return ret;
   }
 
-  getLocationIndexFromRegionOrLocationId(region: string): number {
+  private getLocationIndexFromRegionOrLocationId(region: string): number {
     var locationIndex = null;
     var i = 0;
     locationsData.forEach(l => {
@@ -310,19 +311,14 @@ export class FishDataService {
   }
 
   getSingleFish(fishId: number) {
-    return this.getOneFishWithMissingContactsAdded(fishData[fishId]);
+    return this.getOneFishWithMissingContactsAdded(this.filteredFishData()[fishId]);
   }
 
   getPaths() {
     return pathsData;
   }
 
-  getFish(): Array<IFishModel> {
-    return fishData;
-  }
-
   getMissedContactsByLocation() {
-    debugger;
     var locationArray: Array<any> = Array<any>();
 
     locationsData.forEach(l => {
@@ -334,7 +330,7 @@ export class FishDataService {
       });
     });
 
-    fishData.forEach(f => {
+    this.filteredFishData().forEach(f => {
       f.Contacts.forEach(c => {
         var locIndex = this.getLocationIndexFromRegionOrLocationId(c.LocationId);
         locationArray[locIndex].contacts++;
@@ -358,7 +354,7 @@ export class FishDataService {
 
   getMissedContactsByFish(): Array<number> {
     var missedContacts: Array<number> = Array<number>();
-    fishData.forEach(f => {
+    this.filteredFishData().forEach(f => {
       var fakedContacts = this.getFakedContactsForOneFish(f);
       if (fakedContacts) {
         missedContacts.push(fakedContacts.length);
@@ -368,5 +364,9 @@ export class FishDataService {
     });
 
     return missedContacts;
+  }
+
+  filteredFishData(): IFishModel[] {
+    return fishData;
   }
 }

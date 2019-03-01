@@ -20,7 +20,8 @@
 </div>
 <div>&nbsp;</div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+  <button mat-button (click)="onCancelClick()">Cancel</button>
+  <button mat-button (click)="onSaveClick()" cdkFocusInitial
+    [disabled]="(data.males==false && data.females==false) ||(!data.year2011 && !data.year2012 &&!data.year201) ||(!data.winnebago && !data.fox && !data.wolf)">Ok</button>
 </div>
 <div>&nbsp;</div>

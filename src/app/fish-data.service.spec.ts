@@ -27,7 +27,6 @@ describe("Test initial positions", () => {
 
   it("should return ", () => {
     const service: FishDataService = TestBed.get(FishDataService);
-    debugger;
     service.getInitialPositions();
   });
 });

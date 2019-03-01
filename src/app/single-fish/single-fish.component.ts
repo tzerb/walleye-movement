@@ -18,6 +18,5 @@ export class SingleFishComponent implements OnInit {
   ngOnInit() {
     const fishId = +this.route.snapshot.paramMap.get("fishId");
     this.singlefish = this.fishService.getSingleFish(fishId);
-    debugger;
   }
 }

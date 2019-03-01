@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { FishFilterService, FishFilterData } from '../fish-filter.service';
 
 @Component({
   selector: 'app-fish-filter-dialog',
@@ -8,24 +9,24 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class FishFilterDialogComponent implements OnInit {
 
+  data: FishFilterData;
   ngOnInit() {
+    this.data = this.fishFilterService.getFilter();
   }
+
   constructor(
     public dialogRef: MatDialogRef<FishFilterDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: FishFilterData) { }
+    private fishFilterService: FishFilterService) {
+  }
 
-  onNoClick(): void {
+  onCancelClick(): void {
+    this.dialogRef.close();
+  }
+
+  onSaveClick(): void {
+    this.fishFilterService.setFilter(this.data);
     this.dialogRef.close();
   }
 }
 
-export interface FishFilterData {
-  males: boolean;
-  females: boolean;
-  year2011: boolean;
-  year2012: boolean;
-  year2013: boolean;
-  wolf: boolean;
-  fox: boolean;
-  winnebago: boolean;
-}
+

@@ -29,9 +29,9 @@ export class FishComponent implements OnInit {
   locations = [];
 
   ngOnInit() {
-    this.fish = this.fishService.getFish();
+    this.fish = this.fishService.filteredFishData();
     this.locations = this.fishService.getLocations();
-    this.fishService.getFishWithMissingContactsAdded();
+    //this.fishService.getFishWithMissingContactsAdded();
   }
 
   getLocationText(f) {

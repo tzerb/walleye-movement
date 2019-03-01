@@ -52,7 +52,7 @@ export class MovementMapComponent implements OnInit {
 
   markerArray = [];
 
-  constructor(private fishService: FishDataService) {}
+  constructor(private fishService: FishDataService) { }
 
   ngOnInit() {
     this.markerArray = [];
@@ -100,10 +100,10 @@ export class MovementMapComponent implements OnInit {
       m.radius = Math.sqrt(this.fishPositions.positions[value][i]) * 1000;
       console.log(
         m.radius +
-          ":" +
-          this.fishPositions.positions[value][i] +
-          ":" +
-          Math.sqrt(this.fishPositions.positions[value][i] * 1000)
+        ":" +
+        this.fishPositions.positions[value][i] +
+        ":" +
+        Math.sqrt(this.fishPositions.positions[value][i] * 1000)
       );
       i++;
     });
@@ -115,10 +115,8 @@ export class MovementMapComponent implements OnInit {
   }
 
   displayWith(value: number | null) {
-    // if (!value) {
-    //   return 0;
-    // }
-    // return this.computeDate(value);
+
+
     return value.toString();
   }
 }
