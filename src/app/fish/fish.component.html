@@ -2,11 +2,8 @@
 <div *ngFor="let f of fish; let i = index">
   >>
   <!-- <a [routerLink]="['/singlefish', i]">{{ i }}</a>  -->
+  Region: {{ f.Region }}
   Code: {{ f.Code }} : {{ f.Length }} inch
-  <mat-icon svgIcon="gender-male" color="primary"></mat-icon
-  ><mat-icon svgIcon="gender-female" color="primary"></mat-icon>
   {{ f.Sex }} Tagged on {{ f.TaggingDate | date: "MM/dd/yyyy" }} at
-  {{ f.Location }} Number of had {{ f.Contacts.length }} contacts<span
-    >, first being {{ getLocationText(f) }}</span
-  >
+  {{ f.Location }} Number of had {{ f.Contacts.length }} contacts<span>, first being {{ getLocationText(f) }}</span>
 </div>

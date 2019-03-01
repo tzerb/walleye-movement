@@ -3,6 +3,13 @@ import { fishData, locationsData, pathsData } from "./fish-data";
 import { FishFilterService, FishFilterData } from './fish-filter.service';
 import { BehaviorSubject } from 'rxjs';
 
+export interface IReleaseLocation {
+  [Name: string]: IFishModel[];
+}
+export interface IFishTree {
+  [Name: string]: IReleaseLocation;
+}
+
 export interface IFishModel {
   Region: string;
   Code: string;
@@ -401,5 +408,22 @@ export class FishDataService {
 
   filteredFishData(): IFishModel[] {
     return fishData;
+  }
+
+  getCategorizedFish(): IFishTree {
+    debugger;
+    var tree: IFishTree = {};
+    fishData.forEach(f => {
+      var region = tree[f.Region];
+      if (!region) {
+        tree[f.Region] = {}
+      }
+      var releaseLocation = tree[f.Region][f.Location];
+      if (!releaseLocation){
+        tree[f.Region][f.Location] = [];
+      }
+      tree[f.Region][f.Location].push(f);
+    });
+    return tree;
   }
 }
