@@ -355,7 +355,6 @@ export class FishDataService {
     return pathsData;
   }
 
-  //XXX
   getMissedContactsByLocation() {
     var locationArray: Array<any> = Array<any>();
 
@@ -390,7 +389,6 @@ export class FishDataService {
     return locationArray;
   }
 
-  //XXX
   getMissedContactsByFish(): any[] {
     debugger;
     var missedContacts = [];
