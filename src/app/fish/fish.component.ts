@@ -27,22 +27,20 @@ export class FishComponent implements OnInit {
 
   fish = [];
   locations = [];
+  displayedColumns: string[] = ['Region', 'Location', 'Length', 'Sex', 'Contacts', 'TaggingDate', 'FirstContact', 'Actions'];
 
   ngOnInit() {
     this.fishService.getCategorizedFish();
     this.fish = this.fishService.filteredFishData().sort((a, b) => {
       if (a.Region == b.Region) {
-        if (a.Location == b.Location)          
-        {
+        if (a.Location == b.Location) {
           return 0;
         }
-        else if (a.Location < b.Location)
-        {
+        else if (a.Location < b.Location) {
           return -1
         } else return 1;
       }
-      else if (a.Region < b.Region)
-      {
+      else if (a.Region < b.Region) {
         return -1;
       } else return 1;
     });

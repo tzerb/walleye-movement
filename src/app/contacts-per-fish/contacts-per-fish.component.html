@@ -1,6 +1,39 @@
-<div class="table-div">
+<!-- <div class="table-div">
   <p>Fish</p>
   <div *ngFor="let mc of missedContacts; let i = index">
     {{ mc }}
   </div>
-</div>
+</div> -->
+
+<table mat-table [dataSource]="missedContacts" class="mat-elevation-z8">
+
+  <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="fishCode">
+    <th mat-header-cell *matHeaderCellDef> fish code </th>
+    <td mat-cell *matCellDef="let element"> {{element.fishCode}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="contacts">
+    <th mat-header-cell *matHeaderCellDef> contacts </th>
+    <td mat-cell *matCellDef="let element"> {{element.contacts}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="missedContacts">
+    <th mat-header-cell *matHeaderCellDef> missed contacts </th>
+    <td mat-cell *matCellDef="let element"> {{element.missedContacts}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="pctMissed">
+    <th mat-header-cell *matHeaderCellDef> pct missed </th>
+    <td mat-cell *matCellDef="let element"> {{element.pctMissed | percent: ".3-5"}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

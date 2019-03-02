@@ -3,11 +3,8 @@ import { fishData, locationsData, pathsData } from "./fish-data";
 import { FishFilterService, FishFilterData } from './fish-filter.service';
 import { BehaviorSubject } from 'rxjs';
 
-export interface IReleaseLocation {
-  [Name: string]: IFishModel[];
-}
 export interface IFishTree {
-  [Name: string]: IReleaseLocation;
+  [Name: string]: { [Name: string]: IFishModel[] };
 }
 
 export interface IFishModel {
@@ -358,6 +355,7 @@ export class FishDataService {
     return pathsData;
   }
 
+  //XXX
   getMissedContactsByLocation() {
     var locationArray: Array<any> = Array<any>();
 
@@ -392,12 +390,19 @@ export class FishDataService {
     return locationArray;
   }
 
-  getMissedContactsByFish(): Array<number> {
-    var missedContacts: Array<number> = Array<number>();
+  //XXX
+  getMissedContactsByFish(): any[] {
+    debugger;
+    var missedContacts = [];
     this.filteredFishData().forEach(f => {
       var fakedContacts = this.getFakedContactsForOneFish(f);
       if (fakedContacts) {
-        missedContacts.push(fakedContacts.length);
+        missedContacts.push({
+          fishCode: f.Code,
+          contacts: f.Contacts.length,
+          missedContacts: fakedContacts.length,
+          pctMissed: (f.Contacts.length == 0) ? 0 : fakedContacts.length / f.Contacts.length
+        });
       } else {
         missedContacts.push(0);
       }
@@ -411,7 +416,6 @@ export class FishDataService {
   }
 
   getCategorizedFish(): IFishTree {
-    debugger;
     var tree: IFishTree = {};
     fishData.forEach(f => {
       var region = tree[f.Region];
@@ -419,7 +423,7 @@ export class FishDataService {
         tree[f.Region] = {}
       }
       var releaseLocation = tree[f.Region][f.Location];
-      if (!releaseLocation){
+      if (!releaseLocation) {
         tree[f.Region][f.Location] = [];
       }
       tree[f.Region][f.Location].push(f);

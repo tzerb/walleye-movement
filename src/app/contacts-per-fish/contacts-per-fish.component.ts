@@ -8,9 +8,11 @@ import { FishDataService } from "../fish-data.service";
 })
 export class ContactsPerFishComponent implements OnInit {
   missedContacts: Array<any>;
-  constructor(private fishService: FishDataService) {}
+  constructor(private fishService: FishDataService) { }
+  displayedColumns: string[] = ['fishCode', 'contacts', 'missedContacts', 'pctMissed'];
 
   ngOnInit() {
     this.missedContacts = this.fishService.getMissedContactsByFish();
+    debugger;
   }
 }
