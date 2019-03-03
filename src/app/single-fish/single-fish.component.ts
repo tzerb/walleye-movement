@@ -13,10 +13,10 @@ export class SingleFishComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private fishService: FishDataService
-  ) {}
+  ) { }
 
   ngOnInit() {
-    const fishId = +this.route.snapshot.paramMap.get("fishId");
-    this.singlefish = this.fishService.getSingleFish(fishId);
+    const fishCode: string = this.route.snapshot.paramMap.get("fishCode");
+    this.singlefish = this.fishService.getSingleFish(fishCode);
   }
 }

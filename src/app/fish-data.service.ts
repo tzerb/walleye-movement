@@ -347,8 +347,9 @@ export class FishDataService {
     };
   }
 
-  getSingleFish(fishId: number) {
-    return this.getOneFishWithMissingContactsAdded(this.filteredFishData()[fishId]);
+  getSingleFish(code: string) {
+    var fish = fishData.find(f => f.Code == code);
+    return this.getOneFishWithMissingContactsAdded(fish);
   }
 
   getPaths() {

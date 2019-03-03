@@ -45,7 +45,6 @@ export class FishComponent implements OnInit {
       } else return 1;
     });
     this.locations = this.fishService.getLocations();
-    //this.fishService.getFishWithMissingContactsAdded();
   }
 
   getLocationText(f) {

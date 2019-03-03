@@ -13,7 +13,7 @@ import { FilterDisplayComponent } from './filter-display/filter-display.componen
 
 const routes: Routes = [
   { path: "fish", component: FishComponent },
-  { path: "singlefish/:fishId", component: SingleFishComponent },
+  { path: "singlefish/:fishCode", component: SingleFishComponent },
   { path: "locations", component: LocationsComponent },
   { path: "movement", component: MovementMapComponent },
   { path: "byhour", component: ContactsByHourComponent },

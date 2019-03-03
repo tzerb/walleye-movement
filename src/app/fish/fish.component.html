@@ -44,7 +44,11 @@
 
   <ng-container matColumnDef="Actions">
     <th mat-header-cell *matHeaderCellDef> Actions </th>
-    <td mat-cell *matCellDef="let element"> Actions </td>
+    <td mat-cell *matCellDef="let element">
+      <a href='/singlefish/{{element.Code}}'>
+        <mat-icon color="accent">more_horiz</mat-icon>
+      </a>
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
