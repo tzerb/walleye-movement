@@ -1,9 +1,16 @@
-<p>
-    {{singlefish.Length}}" {{singlefish.Sex}}
-</p>
-<p>
-    {{singlefish.Contacts.length}} contact(s)
-</p>
-<p>
-    {{ singlefish.FakedContacts }} missed contact(s).
-</p>
+<div class="container">
+    <div class="left">
+        <p>
+            {{singlefish.Length}}" {{singlefish.Sex}}
+        </p>
+        <p>
+            {{singlefish.Contacts.length}} contact(s)
+        </p>
+        <p>
+            {{ singlefish.FakedContacts }} missed contact(s).
+        </p>
+    </div>
+    <div class="right">
+        <app-movement-map></app-movement-map>
+    </div>
+</div>

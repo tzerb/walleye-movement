@@ -306,10 +306,9 @@ export class FishDataService {
     return Math.floor(date / (1000 * 60 * 60 * 24));
   }
 
-  getInitialPositions() {
+  getPositionsForFish(fish: IFishModel[]) {
     var positions = [];
     var locations = [];
-    var fish = this.getFishWithMissingContactsAdded();
 
     locationsData.forEach(l => {
       locations.push(0);
@@ -345,6 +344,18 @@ export class FishDataService {
       maxDate: minMaxDates.max,
       positions: positions
     };
+
+  }
+
+  getPositionsForOneFish(f: IFishModel) {
+    var fish: IFishModel[] = [];
+    fish.push(f);
+    return this.getPositionsForFish(fish);
+  }
+
+  getInitialPositions() {
+    var fish = this.getFishWithMissingContactsAdded();
+    return this.getPositionsForFish(fish);
   }
 
   getSingleFish(code: string) {

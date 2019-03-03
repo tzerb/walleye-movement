@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Output } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 
 import { FishDataService } from "../fish-data.service";
@@ -9,6 +9,7 @@ import { FishDataService } from "../fish-data.service";
   styleUrls: ["./single-fish.component.css"]
 })
 export class SingleFishComponent implements OnInit {
+
   private singlefish: any;
   constructor(
     private route: ActivatedRoute,
@@ -16,7 +17,7 @@ export class SingleFishComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const fishCode: string = this.route.snapshot.paramMap.get("fishCode");
+    const fishCode = this.route.snapshot.paramMap.get("fishCode");
     this.singlefish = this.fishService.getSingleFish(fishCode);
   }
 }

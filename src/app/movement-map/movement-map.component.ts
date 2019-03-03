@@ -1,5 +1,6 @@
-import { Component, OnInit } from "@angular/core";
-import { FishDataService } from "../fish-data.service";
+import { Component, OnInit, Input } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { FishDataService, IFishModel } from "../fish-data.service";
 
 @Component({
   selector: "app-movement-map",
@@ -7,6 +8,10 @@ import { FishDataService } from "../fish-data.service";
   styleUrls: ["./movement-map.component.css"]
 })
 export class MovementMapComponent implements OnInit {
+
+  private fishCode: string;
+  private singlefish: IFishModel;
+
   fishPositions: any = null;
 
   points: number = 0;
@@ -52,7 +57,7 @@ export class MovementMapComponent implements OnInit {
 
   markerArray = [];
 
-  constructor(private fishService: FishDataService) { }
+  constructor(private route: ActivatedRoute, private fishService: FishDataService) { }
 
   ngOnInit() {
     this.markerArray = [];
@@ -69,7 +74,14 @@ export class MovementMapComponent implements OnInit {
       })
     );
 
-    this.fishPositions = this.fishService.getInitialPositions();
+    this.fishCode = this.route.snapshot.paramMap.get("fishCode");
+
+    if (this.fishCode) {
+      this.singlefish = this.fishService.getSingleFish(this.fishCode);
+      this.fishPositions = this.fishService.getPositionsForOneFish(this.singlefish);
+    } else {
+      this.fishPositions = this.fishService.getInitialPositions();
+    }
     this.points = this.fishPositions.positions.length - 1;
     this.changeDate(0);
   }
