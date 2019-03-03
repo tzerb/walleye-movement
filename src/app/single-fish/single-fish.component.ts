@@ -9,6 +9,7 @@ import { FishDataService } from "../fish-data.service";
   styleUrls: ["./single-fish.component.css"]
 })
 export class SingleFishComponent implements OnInit {
+  displayedColumns: string[] = ['Start', 'LocationId'];
 
   private singlefish: any;
   constructor(

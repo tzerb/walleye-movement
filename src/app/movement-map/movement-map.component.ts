@@ -9,8 +9,7 @@ import { FishDataService, IFishModel } from "../fish-data.service";
 })
 export class MovementMapComponent implements OnInit {
 
-  private fishCode: string;
-  private singlefish: IFishModel;
+  @Input() code: string;
 
   fishPositions: any = null;
 
@@ -74,11 +73,9 @@ export class MovementMapComponent implements OnInit {
       })
     );
 
-    this.fishCode = this.route.snapshot.paramMap.get("fishCode");
-
-    if (this.fishCode) {
-      this.singlefish = this.fishService.getSingleFish(this.fishCode);
-      this.fishPositions = this.fishService.getPositionsForOneFish(this.singlefish);
+    if (this.code) {
+      const singlefish = this.fishService.getSingleFish(this.code);
+      this.fishPositions = this.fishService.getPositionsForOneFish(singlefish);
     } else {
       this.fishPositions = this.fishService.getInitialPositions();
     }

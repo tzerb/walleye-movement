@@ -1,16 +1,41 @@
 <div class="container">
     <div class="left">
-        <p>
-            {{singlefish.Length}}" {{singlefish.Sex}}
-        </p>
-        <p>
-            {{singlefish.Contacts.length}} contact(s)
-        </p>
-        <p>
-            {{ singlefish.FakedContacts }} missed contact(s).
-        </p>
+        <div>
+            <div>
+                {{singlefish.Length}}" {{singlefish.Sex}}
+            </div>
+            <div>
+                {{singlefish.Contacts.length}} contact(s)
+            </div>
+            <div>
+                {{ singlefish.FakedContacts }} missed contact(s).
+            </div>
+        </div>
+        <div class="scroller">
+            <table mat-table [dataSource]="singlefish.Contacts" class="mat-elevation-z4">
+
+                <!--- Note that these columns can be defined in any order.
+                        The actual rendered columns are set as a property on the row definition" -->
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="Start">
+                    <th mat-header-cell *matHeaderCellDef> Start </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Start}} </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="LocationId">
+                    <th mat-header-cell *matHeaderCellDef> LocationId </th>
+                    <td mat-cell *matCellDef="let element"> {{element.LocationId}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
     </div>
+
     <div class="right">
-        <app-movement-map></app-movement-map>
+        <app-movement-map [code]='singlefish.Code'></app-movement-map>
     </div>
 </div>
