@@ -103,29 +103,20 @@ export class MovementMapComponent implements OnInit {
 
   changeDate(value: number) {
     var i = 0;
-    console.log("date: " + this.computeDate(value));
+    this.computeDate(value);
     this.markerArray.forEach(m => {
       m.count = this.fishPositions.positions[value][i].toString();
       m.radius = Math.sqrt(this.fishPositions.positions[value][i]) * 1000;
-      console.log(
-        m.radius +
-        ":" +
-        this.fishPositions.positions[value][i] +
-        ":" +
-        Math.sqrt(this.fishPositions.positions[value][i] * 1000)
-      );
       i++;
     });
   }
 
   onInputChange(e: any) {
-    console.log("e.value: " + e.value);
     this.changeDate(e.value);
   }
 
   displayWith(value: number | null) {
-
-
     return value.toString();
   }
+
 }

@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import { FishDataService } from "../fish-data.service";
 import { DomSanitizer } from "@angular/platform-browser";
 import { MatIconRegistry } from "@angular/material";
-import { HttpClientModule } from "@angular/common/http";
 
 @Component({
   selector: "app-fish",
@@ -10,6 +9,11 @@ import { HttpClientModule } from "@angular/common/http";
   styleUrls: ["./fish.component.css"]
 })
 export class FishComponent implements OnInit {
+
+  fish = [];
+  locations = [];
+  displayedColumns: string[] = ['Region', 'Location', 'Length', 'Sex', 'Contacts', 'TaggingDate', 'FirstContact', 'Actions'];
+
   constructor(
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
@@ -24,10 +28,6 @@ export class FishComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl("../assets/gender-female.svg")
     );
   }
-
-  fish = [];
-  locations = [];
-  displayedColumns: string[] = ['Region', 'Location', 'Length', 'Sex', 'Contacts', 'TaggingDate', 'FirstContact', 'Actions'];
 
   ngOnInit() {
     this.fishService.getCategorizedFish();

@@ -6,9 +6,11 @@ import { FishFilterData, FishFilterService } from '../fish-filter.service';
   templateUrl: './filter-display.component.html',
   styleUrls: ['./filter-display.component.css']
 })
+
 export class FilterDisplayComponent implements OnInit {
 
   data: FishFilterData;
+
   ngOnInit() {
     this.fishFilterService.getFilter().subscribe(d => this.data = d);
   }
@@ -16,6 +18,7 @@ export class FilterDisplayComponent implements OnInit {
   constructor(
     private fishFilterService: FishFilterService) {
   }
+
   onSaveClick(): void {
     this.fishFilterService.setFilter(this.data);
   }

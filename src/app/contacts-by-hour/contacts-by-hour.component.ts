@@ -7,7 +7,7 @@ import { FishDataService } from "../fish-data.service";
   styleUrls: ["./contacts-by-hour.component.css"]
 })
 export class ContactsByHourComponent implements OnInit {
-  constructor(private fishService: FishDataService) {}
+  constructor(private fishService: FishDataService) { }
 
   // lineChart
   public lineChartData: Array<any> = [
@@ -43,22 +43,13 @@ export class ContactsByHourComponent implements OnInit {
 
   ngOnInit() {
     this.fishService.getContactsByHourOfDay().subscribe(chd => {
-      let _lineChartData: Array<any> = [{ data: [], label: "" }];// new Array(1);
+      let _lineChartData: Array<any> = [{ data: [], label: "" }];
 
       _lineChartData[0].data = chd;
       _lineChartData[0].label = "All Fish";
 
-      // this.lineChartData[1].data = Array(24).fill(0);
-      // this.lineChartData[1].label = "Females";
-  
       this.lineChartData = _lineChartData;
     });
-
-    // this.lineChartData[0].data = this.fishService.getContactsByHourOfDay();
-    // this.lineChartData[0].label = "All Fish";
-
-    // this.lineChartData[1].data = Array(24).fill(0);
-    // this.lineChartData[1].label = "Females";
   }
 
   public lineChartOptions: any = {

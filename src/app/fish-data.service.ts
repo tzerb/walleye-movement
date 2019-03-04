@@ -13,7 +13,6 @@ export interface IFishModel {
   Location: string;
   TaggingDate: string;
   Length: number;
-  // Mature: boolean;
   Sex: string;
   Contacts: Array<IContact>;
 }
@@ -24,7 +23,6 @@ export interface IFishModelWithMisstingContacts {
   Location: string;
   TaggingDate: string;
   Length: number;
-  // Mature: boolean;
   Sex: string;
   Contacts: Array<IContact>;
   FakedContacts: number;
@@ -181,17 +179,12 @@ export class FishDataService {
     for (var i = 1; i < onefish.Contacts.length; i++) {
       var lastDate = new Date(lastContact.Start);
       var thisDate = new Date(onefish.Contacts[i].Start);
-      if (thisDate < lastDate) {
-        console.log(`ERROR ${lastContact.Start} ${onefish.Contacts[i].Start}`);
-      }
 
       var pd = this.findPathDifferences(lastContact.LocationId, onefish.Contacts[i].LocationId);
 
       var mpd = this.minPathDifference(pd);
 
       if (mpd.value > 1) {
-        console.log(`tdiff = ${lastDate.getTime() - thisDate.getTime()}`);
-        console.log(`min = ${mpd.value}, path = ${mpd.index}`);
         var l = this.fakeMissedContacts(paths[mpd.index], lastContact, onefish.Contacts[i]);
         fakedContacts = fakedContacts.concat(l); // TODO TZ
       }
@@ -291,7 +284,6 @@ export class FishDataService {
       f.Contacts.forEach(c => {
         max = Math.max(max, new Date(c.Start).getTime());
       });
-      // var sortedcontacts = this.sortContacts(f.Contacts);
     });
     return {
       max: max,
@@ -328,7 +320,6 @@ export class FishDataService {
         var b = this.truncDate(t.Date);
         var nDays = b - a;
         if (nDays > 0) {
-          console.log(nDays);
           for (var j = a; j <= b; j++) {
             var dateIndex = Math.floor(j - this.truncDate(minMaxDates.min));
             positions[dateIndex][lastLocationIndex]++;
@@ -402,7 +393,6 @@ export class FishDataService {
   }
 
   getMissedContactsByFish(): any[] {
-    debugger;
     var missedContacts = [];
     this.filteredFishData().forEach(f => {
       var fakedContacts = this.getFakedContactsForOneFish(f);

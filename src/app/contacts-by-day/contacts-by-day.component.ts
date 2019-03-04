@@ -18,7 +18,7 @@ export class ContactsByDayComponent implements OnInit {
 
   ngOnInit() {
     this.fishService.getContactsByDayOfYear().subscribe(cdy => {
-      let _lineChartData: Array<any> = [{ data: [], label: "" }];// new Array(1);
+      let _lineChartData: Array<any> = [{ data: [], label: "" }];
 
       _lineChartData[0].data = cdy;
       _lineChartData[0].label = "All Fish";

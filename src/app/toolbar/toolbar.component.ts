@@ -1,6 +1,5 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { FishFilterDialogComponent } from '../fish-filter-dialog/fish-filter-dialog.component';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
 
 
 @Component({
@@ -10,18 +9,10 @@ import { FishFilterDialogComponent } from '../fish-filter-dialog/fish-filter-dia
 })
 export class ToolbarComponent implements OnInit {
 
-  // fishFilter: FishFilterData;
-
   constructor(public dialog: MatDialog) {
   }
 
   ngOnInit() {
   }
-
-  onClickFilters() {
-    const dialogRef = this.dialog.open(FishFilterDialogComponent, {
-      width: '500px'
-    });
-
-  }
 }
+ 
