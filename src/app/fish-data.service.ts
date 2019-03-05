@@ -50,18 +50,20 @@ export interface ITransition {
 })
 export class FishDataService {
 
-
   private contactsByDayOfYear: BehaviorSubject<number[]>;
   private contactsByHourOfDay: BehaviorSubject<number[]>;
+  private fishWithMissingContactsAdded: IFishModelWithMisstingContacts[];
 
   constructor(private filterService: FishFilterService) {
+
+    this.fishWithMissingContactsAdded = this.getFishWithMissingContactsAdded();
 
     this.contactsByDayOfYear = new BehaviorSubject<number[]>([]);
     this.contactsByHourOfDay = new BehaviorSubject<number[]>([]);
     this.filterService.getFilter().subscribe(filter => {
-      var fish = this.getFishWithMissingContactsAdded();
+
       var dayArray = Array.from(Array(366), () => 0);
-      fish.forEach(f => {
+      this.fishWithMissingContactsAdded.forEach(f => {
         if (this.shouldIncludeFish(f, filter)) {
           f.Contacts.forEach(c => {
             if (this.shouldIncludeContact(c, filter)) {
@@ -73,7 +75,7 @@ export class FishDataService {
       this.contactsByDayOfYear.next(dayArray);
 
       var hourArray = Array.from(Array(24), () => 0);
-      fish.forEach(f => {
+      this.fishWithMissingContactsAdded.forEach(f => {
         if (this.shouldIncludeFish(f, filter)) {
           f.Contacts.forEach(c => {
             if (this.shouldIncludeContact(c, filter)) {
@@ -85,6 +87,8 @@ export class FishDataService {
       this.contactsByHourOfDay.next(hourArray);;
 
     });
+
+
 
   }
 
@@ -211,7 +215,7 @@ export class FishDataService {
     return returnedFish;
   }
 
-  private getFishWithMissingContactsAdded(): Array<IFishModel> {
+  private getFishWithMissingContactsAdded(): Array<IFishModelWithMisstingContacts> {
     var ret = [];
     var fish = this.filteredFishData();
     for (var j = 0; j < fish.length; j++) {
@@ -345,13 +349,12 @@ export class FishDataService {
   }
 
   getInitialPositions() {
-    var fish = this.getFishWithMissingContactsAdded();
-    return this.getPositionsForFish(fish);
+    return this.getPositionsForFish(this.fishWithMissingContactsAdded);
   }
 
-  getSingleFish(code: string) {
-    var fish = fishData.find(f => f.Code == code);
-    return this.getOneFishWithMissingContactsAdded(fish);
+  getSingleFish(code: string): IFishModelWithMisstingContacts {
+    var fish = this.fishWithMissingContactsAdded.find(f => f.Code == code);
+    return fish;
   }
 
   getPaths() {
