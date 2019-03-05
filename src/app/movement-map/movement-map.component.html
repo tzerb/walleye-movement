@@ -1,28 +1,32 @@
-<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
-  <agm-circle *ngFor="let m of markerArray" [radius]="m.radius" [latitude]="m.lat" [longitude]="m.lng"
-    [fillColor]="'#aa0000'">
-  </agm-circle>
+<div class="movement-map">
+  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+    <agm-circle *ngFor="let m of markerArray" [radius]="m.radius" [latitude]="m.lat" [longitude]="m.lng"
+      [fillColor]="'#aa0000'">
+    </agm-circle>
 
-  <agm-marker *ngFor="let m of markerArray" [latitude]="m.lat" [longitude]="m.lng" [label]="m.count"
-    [iconUrl]="iconUrl">
-    <agm-info-window>
-      <div class='info-window'>{{m.label}}</div>
-    </agm-info-window>
-  </agm-marker>
-</agm-map>
+    <agm-marker *ngFor="let m of markerArray" [latitude]="m.lat" [longitude]="m.lng" [label]="m.count"
+      [iconUrl]="iconUrl">
+      <agm-info-window>
+        <div class='info-window'>{{m.label}}</div>
+      </agm-info-window>
+    </agm-marker>
+  </agm-map>
+</div>
 
-<mat-card class="result">
-  <mat-card-content>
-    <mat-slider [(ngModel)]="value" min="0" [max]="points" step="1" tickInterval="1" thumbLabel
-      [displayWith]="displayWith" [value]="value" (input)="onInputChange($event)"></mat-slider>
+<div class="results">
+  <mat-card class="result">
+    <mat-card-content>
+      <mat-slider [(ngModel)]="value" min="0" [max]="points" step="1" tickInterval="1" thumbLabel
+        [displayWith]="displayWith" [value]="value" (input)="onInputChange($event)"></mat-slider>
 
-    <div>
-      <button mat-icon-button color="accent" (click)="nextDate()">
-        <mat-icon>arrow_upward</mat-icon>
-      </button>
-      <button mat-icon-button color="accent" (click)="prevDate()">
-        <mat-icon>arrow_downward</mat-icon>
-      </button>{{ curDate }}
-    </div>
-  </mat-card-content>
-</mat-card>
+      <div>
+        <button mat-icon-button color="accent" (click)="nextDate()">
+          <mat-icon>arrow_upward</mat-icon>
+        </button>
+        <button mat-icon-button color="accent" (click)="prevDate()">
+          <mat-icon>arrow_downward</mat-icon>
+        </button>{{ curDate }}
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
